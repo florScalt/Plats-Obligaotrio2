@@ -11,6 +11,7 @@ const carreraNuevoDoc = document.querySelector("#carreraDoc")
 const tipoResumen = document.querySelector("#opcionResumen")
 const tipoDocumento = document.querySelector("#opcionDocumento")
 const descNuevoDoc = document.querySelector("#descripcionDoc")
+const archivoNuevoDoc = document.querySelector("#archivoDoc")
 //falta el drop del pdg
 const btnSubirDoc = document.querySelector("#subirDocBtn")
 
@@ -142,38 +143,44 @@ async function crearDocumento() {
         tipoDocumento.checked ? "Documento" :
         "";
 
-    const nuevoDoc = {
-        nombreDoc: nombreNuevoDoc.value,
-        carreraDoc: carreraNuevoDoc.value,
-        tipoDoc: tipo,
-        creador: "691f16b3fa07849bc66be8aa",
-        descripcion: descNuevoDoc.value,
-        archivo: "file:///Users/avrilestefan/Downloads/raw.pdf"
-    };
+    const archivo = document.querySelector("#archivoDoc").files[0];
 
-    const response = await fetch(`${BASE_URL}/biblioteca/nuevo-documento`, {
-        method: "POST",
-        headers: { "Content-type": "application/json" },
-        body: JSON.stringify(nuevoDoc)
-    });
+    if (!archivo) {
+        alert("Debes seleccionar un archivo");
+        return;
+    }
 
-    // Respuesta como texto por si hay errores del backend
-    const data = await response.text();
-    console.log(data);
+    // Crear FormData en lugar de JSON
+    const formData = new FormData();
+    formData.append("archivo", archivo); // el nombre debe coincidir con el que Multer espera
+    formData.append("nombreDoc", nombreNuevoDoc.value);
+    formData.append("carreraDoc", carreraNuevoDoc.value);
+    formData.append("tipoDoc", tipo);
+    formData.append("creador", "691f16b3fa07849bc66be8aa"); // linkear usuario real
+    formData.append("descripcion", descNuevoDoc.value);
 
-    if (response.ok) {
-        // Pantalla de éxito
-        divAgregarDoc.innerHTML = `
-            <h2>Biblioteca compartida > Agregar documento</h2>
-            <h1>Agregar Documento</h1>
+    try {
+        const response = await fetch(`${BASE_URL}/biblioteca/nuevo-documento`, {
+            method: "POST",
+            body: formData
+        });
 
-            <h3 style="color: green;">Documento creado con éxito ✔</h3>
+        const data = await response.text(); // ahora es un JSON con info del doc creado
+        console.log(data);
 
-            <a href="biblioteca.html">Volver a Biblioteca</a>
-        `;
-    } else {
-        // Redirección inmediata a error.html
-        window.location.href = "error.html";
+        if (response.ok) {
+            divAgregarDoc.innerHTML = `
+                <h2>Biblioteca compartida > Agregar documento</h2>
+                <h1>Agregar Documento</h1>
+                <h3 style="color: green;">Documento creado con éxito ✔</h3>
+                <a href="biblioteca.html">Volver a Biblioteca</a>
+            `;
+        } else {
+            alert("Error al subir el documento");
+        }
+    } catch (e) {
+        console.log(e);
+        alert("Error en la conexión con el servidor");
     }
 }
 

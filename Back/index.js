@@ -1,9 +1,17 @@
 const mongoose = require("mongoose")
 const express = require("express")
 const cors = require("cors")
+const Grid = require ("gridfs-stream")
 
 const Usuarios = require("./Usuarios")
 const Documentos = require("./Documentos")
+const { upload, uploadFile } = require("./upload");
+
+
+mongoose.connection.once("open", () => {
+  gfs = Grid(mongoose.connection.db, mongoose.mongo);
+  gfs.collection("uploads");
+});
 
 const app = express()
 const PORT = 3000
@@ -43,6 +51,7 @@ app.put("/usuario/editar/:correo", async (req, res) => {
 // CREAR USUARIO
 app.post("/registrarse", async (req, res) => {
     try {
+
         const body = req.body
         console.log(body)
         const correoUsuario = body.correo?.toLowerCase().trim()
@@ -50,7 +59,7 @@ app.post("/registrarse", async (req, res) => {
         const nombreUsuario = body.datos.nombre
         const carreraUsuario = body.datos.carrera
         const fotoPerfil = body.datos.perfil
-        
+
 
         if (!correoUsuario) {
             res.status(400).send("Falta el correo electrónico")
@@ -74,6 +83,8 @@ app.post("/registrarse", async (req, res) => {
         }
 
 
+
+
         console.log("usuario recibido", correoUsuario)
         const usuarioExistente = await buscarUsuarioPorCorreo(correoUsuario)
         console.log("Buscando usuario existente")
@@ -88,7 +99,6 @@ app.post("/registrarse", async (req, res) => {
                     carrera: carreraUsuario,
                     perfil: fotoPerfil,
                 },
-                //documentos: {documentos}
             })
             res.status(200).send("Usuario creado con éxito")
             console.log("El usuario existente", usuarioExistente)
@@ -171,16 +181,42 @@ app.get("/biblioteca/nombre/:nombreDoc", async (req, res) => {
 
 
 //SUBIR DOCUMENTOS
-app.post("/biblioteca/nuevo-documento", async (req, res) => {
+app.post("/biblioteca/nuevo-documento", upload.single("archivo"), async (req, res) => {
     try {
-        const body = req.body
-        console.log(body)
-        const nombreDoc = body.nombreDoc
-        const carreraDoc = body.carreraDoc
-        const tipoDoc = body.tipoDoc
-        const creadorDoc = body.creador
-        const descDoc = body.descripcion
-        const archivoDoc = body.archivo
+        const file = req.file;
+        const body = req.body;
+
+        if (!file) {
+            return res.status(400).send("Falta el archivo");
+        }
+
+        // Subir a GridFS
+        const fileId = await uploadFile(file);
+
+        // Crear documento en MongoDB con link al fileId
+        const nuevoDoc = {
+            nombreDoc: body.nombreDoc,
+            carreraDoc: body.carreraDoc,
+            tipoDoc: body.tipoDoc,
+            creador: body.creador,
+            descripcion: body.descripcion,
+            archivo: fileId, // guardamos solo el id de GridFS
+        };
+
+        await Documentos.create(nuevoDoc);
+
+        res.status(200).send("Documento creado con éxito");
+    } catch (e) {
+        console.log(e);
+        res.status(500).send("Error al subir documento");
+    }
+});
+/*
+app.post("/biblioteca/nuevo-documento", upload.single("archivo"), async (req, res) => {
+    try {
+        const body = req.body;
+        const file = req.file; // archivo subido por GridFS
+
 
         if (!nombreDoc) {
             res.status(400).send("Falta el nombre del documento")
@@ -198,25 +234,29 @@ app.post("/biblioteca/nuevo-documento", async (req, res) => {
             res.status(400).send("Error al obtener el usuario que crea el doc")
             return
         }
-        if (!archivoDoc) {
-            res.status(400).send("Falta agregar un archivo")
+        if (!req.file) {
+            res.status(400).send("No se subió nungún archivo")
             return
         }
+        const nuevoDocumento = {
+            nombreDoc: body.nombreDoc,
+            carreraDoc: body.carreraDoc,
+            tipoDoc: body.tipoDoc,
+            creador: body.creador,
+            descripcion: body.descripcion || "",
+            archivo: `/archivo/${file.filename}` // aquí guardamos un link que luego puedes servir
+        };
 
-        crearDocumento({
-            nombreDoc: nombreDoc,
-            carreraDoc: carreraDoc,
-            tipoDoc: tipoDoc,
-            creador: creadorDoc,
-            descripcion: descDoc,
-            archivo: archivoDoc,
-        })
-        res.status(200).send("Documento creado con éxito")
-        return
+
+        const documentoCreado = await Documentos.create(nuevoDocumento)
+        res.status(200).json(documentoCreado)
+
     } catch (e) {
         console.log(e);
+        res.status(500).send("Error subiendo el archivo o creando el documento")
     }
 })
+*/
 
 
 //MOSTRAR TODOS LOS DOCUMENTOS
@@ -248,6 +288,19 @@ app.delete("/biblioteca/eliminar/:id", async (req, res) => {
         res.status(400).send("Documento no encotrado")
     }
 })
+
+//DESCARGAR ARCHVO POR FILENAME
+app.get("/archivo/:filename", async (req, res) => {
+  try {
+    const file = await gfs.files.findOne({ filename: req.params.filename });
+    if (!file) return res.status(404).send("Archivo no encontrado");
+
+    const readstream = gfs.createReadStream(file.filename);
+    readstream.pipe(res);
+  } catch (err) {
+    res.status(500).send(err.message);
+  }
+});
 
 
 
@@ -284,7 +337,7 @@ async function buscarUsuarioPorCorreo(correoElectronico) {
 
     console.log("buscando en DB", correoElectronico)
     console.log(Usuarios)
-    const usuario = await Usuarios.findOne({ correo: correoElectronico }) 
+    const usuario = await Usuarios.findOne({ correo: correoElectronico })
     console.log(usuario)
     console.log("Resultado DB:", usuario)
     return usuario
