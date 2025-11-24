@@ -121,7 +121,7 @@ app.get("/usuario/:correo", async (req, res) => {
     try {
         const params = req.params
         const correoBusqueda = params.correo
-        const usuarioBusqueda = await Usuarios.find({ correo: correoBusqueda })
+        const usuarioBusqueda = await Usuarios.findOne({ correo: correoBusqueda })
         res.json(usuarioBusqueda)
         console.log("Se encontró el usuario exitosamente")
     } catch (e) {

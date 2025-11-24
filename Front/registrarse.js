@@ -1,6 +1,7 @@
 //SELECCION DE AVATARES
 const contenedorAvatares = document.querySelector(".avatares");
 
+
 //Variable global donde se guardará cuál avatar eligió el usuario
 let avatarSeleccionado = null;
 
@@ -100,6 +101,5 @@ btn.addEventListener("click", async () => {
         alert("Hubo un error al registrarse");
     }    
 });
-
 
 
