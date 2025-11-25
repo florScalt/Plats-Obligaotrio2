@@ -31,9 +31,8 @@ const arrayCarreras = [
 const arrayTipoDoc = ["Resumen", "Documento"]
 
 //USUARIO ACTUAL
-const usuario = JSON.parse(localStorage.getItem("usuarioLogueado")); //lo guardó el login
-
-    if (!usuario) {
+const usuarioActual = JSON.parse(localStorage.getItem("usuarioLogueado")); //lo guardó el login
+    if (!usuarioActual) {
         window.location.href = "login.html"; // si no está logueado lo manda a login.html
     }
     console.log("Usuario logueado:", usuario);
