@@ -4,7 +4,6 @@ const btnIngresar = document.querySelector("#btnInicioSesion")
 
 BASE_URL = "http://localhost:3000"
 
-
 async function obtenerUsuarioLogin() {
     const correo = correoLogin.value.trim();
 
@@ -56,7 +55,7 @@ function verificarUsuario(usuarioDelServidor) {
 
         window.location.href = "inicio.html";
     } else {
-        alert("Contraseña incorrecta ❌");
+        alert("Contraseña incorrecta");
     }
 }
 

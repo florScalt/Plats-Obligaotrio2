@@ -1,7 +1,6 @@
 //SELECCION DE AVATARES
 const contenedorAvatares = document.querySelector(".avatares");
 
-
 //Variable global donde se guardará cuál avatar eligió el usuario
 let avatarSeleccionado = null;
 

@@ -1,18 +1,24 @@
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Thai+Looped:wght@100..900&display=swap');
 
 :root {
-    --color-primario: #000d23;
+    --color-primario: #121f37; 
     --color-link: #374151;
-    --color-acento: #007bff;
+    --color-acento: #007bff; 
+    --color-fondo-claro: #fcf8f0; 
+    --color-boton-oscuro: #000d23; 
+
+    --size-h1: 3rem;
+    --size-h2: 1.5rem;
+    --size-button-link: 1rem;
+    --size-p: 0.9rem;
 }
 
 body {
     font-family: 'Noto Sans Thai Looped', sans-serif;
-    background-color: #fcf8f0; 
+    background-color: var(--color-fondo-claro); 
 }
 
 /*--------HEADER REGISTRO-LOGIN---------*/
-
 header {
     display: flex;
     padding: 1.5rem 3rem;
@@ -28,7 +34,7 @@ header {
     font-size: 1.7rem;
     color: var(--color-primario);
     text-decoration: none;
-    font-weight: bold;
+    font-weight: 800;
 }
 
 .logo img {
@@ -42,8 +48,8 @@ nav {
     gap: 2.5rem;
 
     a{
-        font-size: 1em;
-        font-weight: 700;
+        font-size: var(--size-button-link);
+        font-weight: 600;
     }
 }
 
@@ -55,8 +61,8 @@ nav a:first-child {
     padding: 0.3rem 1.7rem;          
     text-decoration: none;
     color: var(--color-primario);
-    border-radius: 20px;               
-    border: 1px solid var(--color-primario);                          
+    border-radius: 20px;                 
+    border: 1px solid var(--color-primario);                           
     transition: 0.2s;
 }
 
@@ -67,7 +73,7 @@ nav a:first-child:hover {
 
 /* icono */
 .material-symbols-outlined {
-    font-size: 16px;
+    font-size: var(--size-button-link);
 }
 
 /*contactanos*/
@@ -85,26 +91,36 @@ nav a:last-child {
 section {
     max-width: 1200px;    
     margin: 0 auto;       
-    padding: 0 2rem;     
+    padding: 0 2rem;      
 }
 
 h1{
-    font-size: 3rem;
+    font-size: var(--size-h1);
     color: var(--color-primario);
+    font-weight: 600;
+    margin-bottom: 2rem; 
+}
+
+h2 {
+    font-size: var(--size-h2);
+    color: var(--color-primario);
+    font-weight: normal; 
 }
 
 .campoRegistro {
     display: flex;
-    gap: 3rem;
+    justify-content: center;
     margin-top: 2rem;
 }
 
 /*----AVATAR----*/
 .avatares {
+    width: 50%;
+    max-width: 350px;
+    margin: 2rem auto;
     display: grid;
-    grid-template-columns: repeat(2, 1fr); 
-    gap: 3rem; 
-    width: 40%;
+    grid-template-columns: repeat(2, 1fr);
+    justify-items: center;
 }
 
 .avatarIcon {
@@ -126,10 +142,80 @@ h1{
     transform: scale(1.1);
 }
 
+/*----INPUTS----*/
 .inputsRegistro{
-    width: 60%;
+    width: 50%; 
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 0.8rem; 
+    margin-top: 2rem; 
 }
 
+.inputsRegistro input, 
+.inputsRegistro select {
+    width: 70%;
+    box-sizing: border-box;
+    font-family: 'Noto Sans Thai Looped', sans-serif;
+    padding: 0.7rem; 
+    font-size: var(--size-p);
+    border: 1px solid var(--color-primario); 
+    border-radius: 5px; 
+    color: var(--color-primario);
+    background-color: var(--color-fondo-claro); 
+    outline: none; 
+}
+
+#selectCarrera option {
+    padding: 0.7rem;
+    background-color: var(--color-fondo-claro);
+    color: var(--color-primario);
+    font-size: var(--size-p);
+}
+
+/*focus */
+.inputsRegistro input:focus, 
+.inputsRegistro select:focus {
+    border-color: var(--color-acento); 
+    background-color: #fff;
+    box-shadow: 0 0 3px  var(--color-acento);
+}
+
+/*botón de registro */
+#btnRegistrarme {
+    background-color: var(--color-boton-oscuro); 
+    color: #fff;
+    border: none;
+    font-family: 'Noto Sans Thai Looped', sans-serif;
+    padding: 0.5rem;
+    border-radius: 10px;
+    font-size: var(--size-button-link);
+    margin-top: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    width: 50%; 
+}
+
+#btnRegistrarme:hover {
+    background-color: var(--color-primario); 
+}
+
+/*Estilos para el texto y enlace de inicio de sesion */
+.inputsRegistro p {
+    font-size: var(--size-p);
+    color: var(--color-primario);
+    text-align: left;
+}
+
+.inputsRegistro a {
+    font-size: var(--size-p);
+    font-weight: 700;
+    color: var(--color-acento); 
+    text-decoration: none;
+    text-align: left;
+    margin-top: -1rem; 
+}
+
+.inputsRegistro a:hover {
+    text-decoration: underline;
+}
