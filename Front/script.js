@@ -35,7 +35,7 @@ const usuarioActual = JSON.parse(localStorage.getItem("usuarioLogueado")); //lo 
     if (!usuarioActual) {
         window.location.href = "login.html"; // si no está logueado lo manda a login.html
     }
-    console.log("Usuario logueado:", usuario);
+    console.log("Usuario logueado:", usuarioActual);
 
 
 //ELEMENTOS DE LA API
@@ -53,9 +53,6 @@ async function obtenerDocumentos() {
     }
 }
 async function mostrarDocumentos(arrayDocumentos) {
-    console.log("Entra a funcion mostrarDocumentos")
-
-
     //para ver en qué html estoy: no se puede usar una misma función en html que no estoy viendo activamente
     if (contenedorDocs) contenedorDocs.innerHTML = ""
     if (divDocsBiblioteca) divDocsBiblioteca.innerHTML = ""
