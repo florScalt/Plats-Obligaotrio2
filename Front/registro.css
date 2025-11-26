@@ -27,11 +27,11 @@ nav {
     display: flex;
     align-items: center;
     gap: 2.5rem;
+}
 
-    a{
-        font-size: var(--size-button-link);
-        font-weight: 600;
-    }
+nav a {
+    font-size: var(--size-button-link);
+    font-weight: 600;
 }
 
 /*ayuda*/
@@ -39,11 +39,11 @@ nav a:first-child {
     display: flex;
     gap: 0.7rem;
     align-items: center;
-    padding: 0.3rem 1.7rem;          
+    padding: 0.3rem 1.7rem;
     text-decoration: none;
     color: var(--color-primario);
-    border-radius: 20px;                 
-    border: 1px solid var(--color-primario);                           
+    border-radius: 20px;
+    border: 1px solid var(--color-primario);
     transition: 0.2s;
 }
 
@@ -68,11 +68,11 @@ nav a:last-child {
 }
 
 /*--------REGISTRO---------*/
-
 section {
-    max-width: 1200px;    
-    margin: 0 auto;       
-    padding: 0 2rem;      
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    padding-bottom: 4rem;  /* EXTRA ESPACIO INFERIOR */
 }
 
 .campoRegistro {
@@ -104,33 +104,32 @@ section {
     transform: scale(1.05);
 }
 
-/*del avatar seleccionado*/
 .avatarIcon.selected {
     border: 3px solid var(--color-acento);
     transform: scale(1.1);
 }
 
 /*----INPUTS----*/
-.inputsRegistro{
-    width: 50%; 
+.inputsRegistro {
+    width: 50%;
     display: flex;
     flex-direction: column;
-    gap: 0.8rem; 
-    margin-top: 2rem; 
+    gap: 0.8rem;
+    margin-top: 2rem;
 }
 
-.inputsRegistro input, 
+.inputsRegistro input,
 .inputsRegistro select {
     width: 70%;
     box-sizing: border-box;
     font-family: 'Noto Sans Thai Looped', sans-serif;
-    padding: 0.7rem; 
+    padding: 0.7rem;
     font-size: var(--size-p);
-    border: 1px solid var(--color-primario); 
-    border-radius: 5px; 
+    border: 1px solid var(--color-primario);
+    border-radius: 5px;
     color: var(--color-primario);
-    background-color: var(--color-fondo-claro); 
-    outline: none; 
+    background-color: var(--color-fondo-claro);
+    outline: none;
 }
 
 #selectCarrera option {
@@ -140,17 +139,10 @@ section {
     font-size: var(--size-p);
 }
 
-/*focus */
-.inputsRegistro input:focus, 
-.inputsRegistro select:focus {
-    border-color: var(--color-acento); 
-    background-color: #fff;
-    box-shadow: 0 0 3px  var(--color-acento);
-}
 
-/*botón de registro */
+/*botón*/
 #btnRegistrarme {
-    background-color: var(--color-boton-oscuro); 
+    background-color: var(--color-boton-oscuro);
     color: #fff;
     border: none;
     font-family: 'Noto Sans Thai Looped', sans-serif;
@@ -161,14 +153,14 @@ section {
     font-weight: 500;
     cursor: pointer;
     transition: background-color 0.2s;
-    width: 50%; 
+    width: 50%;
 }
 
 #btnRegistrarme:hover {
-    background-color: var(--color-primario); 
+    background-color: var(--color-primario);
 }
 
-/*Estilos para el texto y enlace de inicio de sesion */
+/*Texto y link*/
 .inputsRegistro p {
     font-size: var(--size-p);
     color: var(--color-primario);
@@ -178,12 +170,139 @@ section {
 .inputsRegistro a {
     font-size: var(--size-p);
     font-weight: 700;
-    color: var(--color-acento); 
+    color: var(--color-acento);
     text-decoration: none;
     text-align: left;
-    margin-top: -1rem; 
+    margin-top: -1rem;
 }
 
 .inputsRegistro a:hover {
     text-decoration: underline;
+}
+
+/*        TABLET           */
+@media (max-width: 1024px) {
+
+    header {
+        padding: 1rem 2rem;
+        gap: 1rem;
+    }
+
+    nav {
+        gap: 1.5rem;
+    }
+
+    section {
+        padding: 0 1.5rem;
+        padding-bottom: 5rem; /* MÁS ESPACIO */
+    }
+
+    h1, h2 {
+        text-align: center;
+    }
+
+    h1 {
+        font-size: 2rem;
+    }
+
+    h2 {
+        font-size: 1.3rem;
+    }
+
+    .campoRegistro {
+        flex-direction: column;
+        align-items: center;
+        gap: 1.5rem;
+        text-align: center;
+    }
+
+    .avatares {
+        width: 100%;
+        max-width: 300px;
+    }
+
+    .inputsRegistro {
+        width: 100%;
+        max-width: 450px;
+        align-items: center;
+    }
+
+    .inputsRegistro input,
+    .inputsRegistro select {
+        width: 100%;
+    }
+
+    #btnRegistrarme {
+        width: 70%;
+    }
+
+    .inputsRegistro p,
+    .inputsRegistro a {
+        text-align: center;
+    }
+}
+
+/*        MOBILE           */
+@media (max-width: 768px) {
+
+    header {
+        flex-direction: column;
+        padding: 1rem;
+        gap: 0.8rem;
+    }
+
+    nav {
+        gap: 1rem;
+    }
+
+    nav a:first-child {
+        padding: 0.3rem 1.2rem;
+    }
+
+    section {
+        padding: 0 1rem;
+        padding-bottom: 5rem; 
+    }
+
+    .campoRegistro {
+        flex-direction: column;
+        align-items: center;
+        margin-top: 1rem;
+        gap: 1rem;
+    }
+
+    .avatares {
+        max-width: 250px;
+        gap: 1rem;
+    }
+
+    .avatarIcon {
+        width: 90px;
+        height: 90px;
+    }
+
+    .inputsRegistro {
+        width: 100%;
+        max-width: 350px;
+        gap: 0.7rem;
+    }
+
+    .inputsRegistro input,
+    .inputsRegistro select {
+        width: 100%;
+        font-size: 0.9rem;
+        padding: 0.6rem;
+    }
+
+    #btnRegistrarme {
+        width: 100%;
+        padding: 0.7rem;
+        font-size: 1rem;
+    }
+
+    .inputsRegistro p,
+    .inputsRegistro a {
+        font-size: 0.9rem;
+        text-align: center;
+    }
 }

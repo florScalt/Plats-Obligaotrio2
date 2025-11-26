@@ -57,3 +57,9 @@ input{
     background-color: var(--color-fondo-claro); 
     outline: none; 
 }
+
+input:focus, select:focus{
+    border-color: var(--color-acento);
+    background-color: #fff;
+    box-shadow: 0 0 3px var(--color-acento);
+}
