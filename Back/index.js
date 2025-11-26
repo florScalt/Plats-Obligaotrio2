@@ -178,6 +178,20 @@ app.get("/biblioteca/nombre/:nombreDoc", async (req, res) => {
     }
 });
 
+//BUSCAR DOCUMENTO POR CORREO DEL USUARIO
+app.get("/biblioteca/creador/:id", async (req, res) => {
+    try {
+        const idCreador = req.params.id
+
+        const documentos = await Documentos.find({
+            creador: idCreador
+        })
+        res.json({ documentos })
+    } catch (e) {
+        res.status(500).json({ message: e.message });
+    }
+})
+
 
 
 //SUBIR DOCUMENTOS
@@ -210,53 +224,8 @@ app.post("/biblioteca/nuevo-documento", upload.single("archivo"), async (req, re
         console.log(e);
         res.status(500).send("Error al subir documento");
     }
-});
-/*
-app.post("/biblioteca/nuevo-documento", upload.single("archivo"), async (req, res) => {
-    try {
-        const body = req.body;
-        const file = req.file; // archivo subido por GridFS
-
-
-        if (!nombreDoc) {
-            res.status(400).send("Falta el nombre del documento")
-            return
-        }
-        if (!carreraDoc) {
-            res.status(400).send("Falta seleccionar la carrera")
-            return
-        }
-        if (!tipoDoc) {
-            res.status(400).send("Falta seleccionar tipo de archivo: Resumen o documento")
-            return
-        }
-        if (!creadorDoc) {
-            res.status(400).send("Error al obtener el usuario que crea el doc")
-            return
-        }
-        if (!req.file) {
-            res.status(400).send("No se subió nungún archivo")
-            return
-        }
-        const nuevoDocumento = {
-            nombreDoc: body.nombreDoc,
-            carreraDoc: body.carreraDoc,
-            tipoDoc: body.tipoDoc,
-            creador: body.creador,
-            descripcion: body.descripcion || "",
-            archivo: `/archivo/${file.filename}` // aquí guardamos un link que luego puedes servir
-        };
-
-
-        const documentoCreado = await Documentos.create(nuevoDocumento)
-        res.status(200).json(documentoCreado)
-
-    } catch (e) {
-        console.log(e);
-        res.status(500).send("Error subiendo el archivo o creando el documento")
-    }
 })
-*/
+
 
 
 //MOSTRAR TODOS LOS DOCUMENTOS
