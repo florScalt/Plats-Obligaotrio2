@@ -1,0 +1,149 @@
+
+/*HEADER LOGIN/REGISTRO*/
+
+header {
+    display: flex;
+    padding: 1.5rem 3rem;
+    justify-content: space-between;
+    align-items: center;
+    background-color: transparent;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1.7rem;
+    color: var(--color-primario);
+    text-decoration: none;
+    font-weight: 800;
+}
+
+.logo img {
+    height: 30px;
+    width: auto;
+}
+
+nav {
+    display: flex;
+    align-items: center;
+    gap: 2.5rem;
+
+    a{
+        font-size: var(--size-button-link);
+        font-weight: 600;
+    }
+}
+
+/*ayuda*/
+nav a:first-child {
+    display: flex;
+    gap: 0.7rem;
+    align-items: center;
+    padding: 0.3rem 1.7rem;          
+    text-decoration: none;
+    color: var(--color-primario);
+    border-radius: 20px;                 
+    border: 1px solid var(--color-primario);                           
+    transition: 0.2s;
+}
+
+nav a:first-child:hover {
+    background-color: var(--color-primario);
+    color: #fff;
+}
+
+/* icono */
+.material-symbols-outlined {
+    font-size: var(--size-button-link);
+}
+
+/*contactanos*/
+nav a:last-child:hover {
+    color: var(--color-acento);
+}
+
+nav a:last-child {
+    text-decoration: none;
+    color: var(--color-primario);
+}
+
+section.campoInicio {
+    width: 100%;
+    max-width: 1200px;
+    display: flex;
+    flex-direction: row;
+    margin: 0 auto;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 2rem;
+    min-height: 75vh;
+}
+
+.ilustracion {
+    width: 45%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+p{
+    color: var(--color-primario);
+    text-align: left;
+    margin-top: 0;
+}
+
+#registrarse{
+    font-size: var(--size-p);
+    font-weight: 700;
+    color: var(--color-acento); 
+    text-align: left;
+    margin-top: -1rem; 
+}
+
+#registrarse:hover {
+    text-decoration: underline;
+}
+
+.campos{
+    display: flex;
+    flex-direction: column;
+    width: 40%;
+    gap: 0.8rem; 
+}
+
+#olvidaste{
+    color: var(--color-primario);
+    text-align: end;
+    font-size: var(--size-p);
+}
+
+#olvidaste:hover {
+    text-decoration: underline;
+}
+
+#btnInicioSesion{
+    background-color: var(--color-boton-oscuro); 
+    color: #fff;
+    border: none;
+    font-family: 'Noto Sans Thai Looped', sans-serif;
+    padding: 0.5rem;
+    border-radius: 10px;
+    font-size: var(--size-button-link);
+    margin: 3rem auto 0 auto; /* centrado */
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    width: 70%;
+}
+
+#btnInicioSesion:hover {
+    background-color: var(--color-primario); 
+}
+
+.ilustracion img {
+    max-width: 450px;
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+}

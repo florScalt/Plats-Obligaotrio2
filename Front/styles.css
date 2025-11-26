@@ -1,0 +1,59 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Thai+Looped:wght@100..900&display=swap');
+
+*{
+    box-sizing: border-box;
+    text-decoration: none;
+}
+
+:root {
+    --color-primario: #121f37; 
+    --color-link: #374151;
+    --color-acento: #007bff; 
+    --color-fondo-claro: #fcf8f0; 
+    --color-boton-oscuro: #000d23; 
+
+    --size-h1: 3rem;
+    --size-h2: 1.5rem;
+    --size-h3:1.2rem;
+    --size-button-link: 1rem;
+    --size-p: 0.9rem;
+}
+
+body {
+    font-family: 'Noto Sans Thai Looped', sans-serif;
+    background-color: var(--color-fondo-claro); 
+    overflow-x: hidden;
+}
+
+h1{
+    font-size: var(--size-h1);
+    color: var(--color-primario);
+    font-weight: 600;
+    margin-bottom: 0.3rem; 
+}
+
+h2 {
+    font-size: var(--size-h2);
+    color: var(--color-primario);
+    font-weight: normal; 
+}
+
+h3{
+    font-size: var(--size-h3);
+    font-weight: normal;
+}
+
+p{
+    font-size: var(--size-p);
+}
+
+input{
+    font-family: 'Noto Sans Thai Looped', sans-serif;
+    padding: 0.7rem; 
+    font-size: var(--size-p);
+    border: 1px solid var(--color-primario); 
+    border-radius: 5px; 
+    color: var(--color-primario);
+    background-color: var(--color-fondo-claro); 
+    outline: none; 
+}
