@@ -93,8 +93,10 @@ async function mostrarDocumentos(arrayDocumentos) {
             <article>
                 <h3>${documento.nombreDoc}</h3>
                 <p>${descripcion}</p>
-                <h5>${documento.carreraDoc}</h5>
-                <h5>${documento.tipoDoc}</h5>
+                <div class="infodoc">
+                    <h5>${documento.carreraDoc}</h5>
+                    <h5 class="badge ${documento.tipoDoc === "Resumen" ? "resumen" : "documento"}">${documento.tipoDoc}</h5> 
+                 </div>
                 <p>${nombreCreador}</p>
             </article>`
         }

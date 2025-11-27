@@ -1,3 +1,23 @@
+header nav a {
+    position: relative;
+    text-decoration: none;
+}
+
+header nav a::after {
+    content: "";
+    position: absolute;
+    bottom: -3px;
+    left: 50%;
+    width: 0;
+    height: 2px;
+    background-color: var(--color-acento);
+    transition: all 0.3s ease;
+    transform: translateX(-50%);
+}
+
+header nav a:hover::after {
+    width: 100%;
+}
 
 section{
     width: 100%;
@@ -19,7 +39,7 @@ h1{
     width: fit-content;
     gap: 0.7rem;
     color: #ffffff;
-    background-color: #FF6B38;
+    background-color: var(--color-naranja);
     padding: 0.7rem 1.3rem;
     border-radius: 10px;
     font-size: var(--size-p);
@@ -72,9 +92,13 @@ h1{
 
 /* Descripción */
 #contenedorDocsBiblioteca article p {
-    font-size: 0.95rem;
+    font-size: var(--size-p);
     color: var(--color-primario);
     margin: 0;
+}
+
+#contenedorDocsBiblioteca article p:nth-of-type(2) {
+    color: var(--color-link);
 }
 
 /* Badge de carrera */
@@ -82,18 +106,45 @@ h1{
     display: inline-block;
     font-size: 0.9rem;
     padding: 0.3rem 0.9rem;
-    border: 2px solid #FF6B38; /* azul Google style */
     border-radius: 20px;
     font-weight: 500;
-    color: var(--color-primario);
     margin: 0.4rem 0;
     width: fit-content;
 }
 
+#contenedorDocsBiblioteca article h5:first-of-type{
+    color: var(--color-primario);
+    border: 2px solid var(--color-naranja);
+}
 
+.badge {
+    display: inline-block;
+    padding: 0.3rem 0.8rem;
+    border-radius: 50px;
+    font-size: var(--size-p);
+    font-weight: 600;
+    color: var(--color-fondo-claro);
+}
+
+/*Si es Resumen→ naranja */
+.badge.resumen {
+    background-color: var(--color-naranja);  
+}
+
+/*Si es Documento→ azul */
+.badge.documento {
+    background-color: var(--color-acento);
+}
+
+.infodoc{
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+}
 
 #addNota {
-    background: #FFC52A;
+    margin-top: 2rem;
+    background: var(--color-amarillo);
     color: var(--color-primario);
     padding: 0.5rem 0.7rem;
     border-radius: 10px;
@@ -104,5 +155,3 @@ h1{
     cursor: pointer;
     border: 2px solid #fff;
 }
-
-
