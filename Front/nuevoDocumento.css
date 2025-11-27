@@ -1,3 +1,5 @@
+/*HEADER*/
+
 header nav a {
     position: relative;
     text-decoration: none;
@@ -18,3 +20,230 @@ header nav a::after {
 header nav a:hover::after {
     width: 100%;
 }
+
+/*section principal*/
+#agregarDoc{
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 2rem;
+    min-height: 80vh;   
+}
+
+h1{
+    margin-bottom: 3rem;
+}
+
+h3{
+    margin-top: 3rem;
+    margin-bottom: 2rem;
+    color: #9b9b98;
+}
+
+.inputNombreDoc{
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.fila-form {
+    display: flex;
+    align-items: flex-start;
+    gap: 2rem;
+    margin-bottom: 1rem;
+}
+
+.campo {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.tipo-opciones {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+/* Ocultar el radio real */
+.radio-op input[type="radio"] {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* Botón base */
+.radio-op {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: var(--size-p);
+    font-weight: 500;
+    padding: 0.4rem 3rem;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: 600;
+    transition:
+        background-color .25s ease,
+        border-color .25s ease,
+        color .25s ease,
+        box-shadow .25s ease;
+}
+
+/*Resumen sin seleccionar*/
+label.radio-op:has(input[value="resumen"]:not(:checked)) {
+    border: 1px solid var(--color-naranja);
+    color: var(--color-primario);
+    background-color: transparent;
+}
+
+/*Documento sin seleccionar*/
+label.radio-op:has(input[value="documento"]:not(:checked)) {
+    border: 1px solid var(--color-acento);
+    color: var(--color-primario);
+    background-color: transparent;
+}
+
+/* Resumen seleccionado */
+label.radio-op:has(#opcionResumen:checked) {
+    background-color: var(--color-naranja);
+    color: var(--color-fondo-claro);
+    border-color: transparent;
+}
+
+/* Documento seleccionado */
+label.radio-op:has(#opcionDocumento:checked) {
+    background-color: var(--color-acento);
+    color: var(--color-fondo-claro);
+    border-color: transparent;
+}
+
+.radio-op:hover {
+    box-shadow: 0 0 8px rgba(31, 31, 31, 0.15);
+}
+
+/*Textarea descripcion*/
+.campo textarea {
+    width: 100%;              
+    Height: 100px;        
+    padding: 0.8rem 1rem;     
+    border: 1px solid var(--color-primario); 
+    border-radius: 5px;
+    background-color: transparent;
+    resize: none;        
+    font-family: inherit; 
+    font-size: var(--size-p);
+    outline: none;
+    box-sizing: border-box;  
+    color: var(--color-primario);
+    margin-bottom: 3rem;
+}
+
+/* Efecto cuando obtiene foco */
+.campo textarea:focus {
+    border-color: var(--color-acento);
+    background-color: #fff;
+    box-shadow: 0 0 3px var(--color-acento);
+}
+
+/*DROP ZONE AREA*/
+/* Contenedor principal */
+.drop-zone {
+    border: 2px dashed var(--color-naranja);
+    border-radius: 12px;
+    padding: 2rem;
+    text-align: center;
+    cursor: pointer;
+    transition: background-color .25s ease, border-color .25s ease;
+    min-height: 40vh;
+    /* Flex para columna (icono arriba, texto abajo) */
+    display: flex;
+    flex-direction: column;  
+    justify-content: center; 
+    align-items: center;    
+    margin-bottom: 3rem;
+    min-height: 150px;
+    box-sizing: border-box;
+    gap: 1rem; 
+
+    span{
+        text-decoration: underline;
+    }
+}
+
+/*Icono dentro de drop-zone*/
+.drop-zone img {
+    width: 40px;   
+    height: 40px;
+}
+
+/*Texto interno*/
+.drop-zone-label {
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--color-primario);
+    cursor: pointer; /* importante */
+    display: block;
+    line-height: 1.5rem;
+    text-align: center; /* asegura que el texto quede centrado */
+}
+
+/* Para ocultar input de archivo*/
+.file-input-hidden {
+    display: none;
+}
+
+/*Texto interno*/
+.drop-zone-label {
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--color-primario);
+    cursor: pointer; /* importante */
+    display: block;
+    line-height: 1.5rem;
+}
+
+/*Hover*/
+.drop-zone:hover {
+    border-color: var(--color-acento);
+}
+
+/*Efecto cuando arrastran archivo encima*/
+.drop-zone.dragover {
+    background-color: var(--color-acento);
+    border-color: var(--color-acento);
+    color: var(--color-fondo-claro);
+}
+
+.drop-zone.dragover .drop-zone-label {
+    color: var(--color-fondo-claro);
+}
+
+#subirDocBtn{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.7rem;
+    font-family: inherit;
+    font-weight: 600;
+    cursor: pointer;
+    color: var(--color-fondo-claro);
+    background-color: var(--color-naranja);
+    padding: 0.7rem 1.3rem;
+    border-radius: 10px;
+    border: 2px solid transparent;
+    font-size: var(--size-p);
+    transition: background-color 0.25s ease, filter 0.25s ease;
+}
+
+#subirDocBtn:hover {
+    background-color: var(--color-fondo-claro);   
+    border-color: var(--color-naranja);
+    color: var(--color-naranja);
+}
+
+

@@ -34,8 +34,9 @@ h1{
     margin-bottom: 2rem;
 }
 
-#uploadDoc{
+#uploadDoc {
     display: flex;
+    align-items: center;
     width: fit-content;
     gap: 0.7rem;
     color: #ffffff;
@@ -43,6 +44,17 @@ h1{
     padding: 0.7rem 1.3rem;
     border-radius: 10px;
     font-size: var(--size-p);
+    transition: transform 0.25s ease, background-color 0.25s ease; /* suaviza crecimiento */
+}
+
+#uploadDoc span {
+    display: inline-block;
+    transition: transform 0.25s ease;
+}
+
+#uploadDoc:hover {
+    transform: translateX(5px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.101);
 }
 
 .camposBiblioteca{
@@ -155,3 +167,4 @@ h1{
     cursor: pointer;
     border: 2px solid #fff;
 }
+

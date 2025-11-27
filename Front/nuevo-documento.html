@@ -10,15 +10,19 @@
 </head>
 
 <body>
-    <section class="agregarDoc" id="agregarDoc">
-        <h2>Biblioteca compartida > Agregar documento</h2>
+    <section id="agregarDoc">
+        <h3>Biblioteca compartida > Agregar documento</h3>
         <h1>Agregar Documento</h1>
+        <div class="inputNombreDoc">
+            <label for="nombreDoc">Nombre del nuevo documento</label>
+            <input type="text" id="nombreDoc">
+        </div>
 
-        <label for="nombreDoc">Nombre del nuevo documento</label>
-        <input type="text" id="nombreDoc">
-
-        <label for="">Carrera Correspondiente</label>
-        <select name="" id="carreraDoc">
+<div class="fila-form">
+    <!-- COLUMNA 1 -->
+    <label class="campo">
+        Carrera Correspondiente
+        <select id="carreraDoc">
             <option value="">Seleccionar Carrera</option>
             <option value="comunicacion">Licenciatura en Comunicación</option>
             <option value="diseno-multimedia">Licenciatura en Diseño Multimedia</option>
@@ -28,31 +32,45 @@
             <option value="relaciones-internacionales">Licenciatura en Relaciones Internacionales</option>
             <option value="biotecnologia">Licenciatura en Biotecnología</option>
         </select>
+    </label>
 
+    <div class="campo">
         <label>Tipo</label>
-        <div>
-            <input type="radio" id="opcionResumen" name="tipo_documento" value="resumen" checked>
-            <label for="resumen">Resumen</label>
-
-            <input type="radio" id="opcionDocumento" name="tipo_documento" value="documento">
-            <label for="documento">Documento</label>
+        <div class="tipo-opciones">
+            <label class="radio-op">
+                <input type="radio" id="opcionResumen" name="tipo_documento" value="resumen" checked>
+                Resumen
+            </label>
+            <label class="radio-op">
+                <input type="radio" id="opcionDocumento" name="tipo_documento" value="documento">
+                Documento
+            </label>
+            </div>
         </div>
+</div>
 
-        <label for="">Descripción</label>
-        <textarea name="" id="descripcionDoc"></textarea>
+        <label class="campo">Descripción 
+                <textarea id="descripcionDoc"></textarea>
+        </label>
+            
 
         <div class="drop-zone">
             <input type="file" id="archivoDoc" name="pdf_file" accept=".pdf" class="file-input-hidden">
-
+        <img src="../img/uplaod2.svg" alt="">
             <label for="pdfFile" class="drop-zone-label">
-                Subir archivo en PDF
+                Subí tu archivo
                 <br>
-                Arrastra o elige de tus archivos
+                Arrastra o <span>elige de tus archivos</span>
             </label>
         </div>
 
-        <button id="subirDocBtn">Subir documento</button>
-    </section>
+        <button id="subirDocBtn">
+        <svg width="30" height="30" viewBox="0 0 30 30" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+        <path d="M16.25 8.75V3.75C16.25 3.05964 16.8096 2.5 17.5 2.5C18.1904 2.5 18.75 3.05964 18.75 3.75V8.75H23.75C24.4404 8.75 25 9.30964 25 10C25 10.6904 24.4404 11.25 23.75 11.25H18.75C18.087 11.25 17.4513 10.9864 16.9824 10.5176C16.5136 10.0487 16.25 9.41304 16.25 8.75Z"/>
+        <path d="M5 23.75V6.25C5 5.25544 5.39537 4.30189 6.09863 3.59863C6.80189 2.89537 7.75544 2.5 8.75 2.5H17.5L17.6233 2.5061C17.9095 2.53447 18.1786 2.66103 18.3838 2.86621L24.6338 9.11621C24.8682 9.35063 25 9.66848 25 10V23.75C25 24.7446 24.6046 25.6981 23.9014 26.4014C23.1981 27.1046 22.2446 27.5 21.25 27.5H8.75C7.75544 27.5 6.80189 27.1046 6.09863 26.4014C5.39537 25.6981 5 24.7446 5 23.75ZM13.75 21.25V13.75C13.75 13.0596 14.3096 12.5 15 12.5C15.6904 12.5 16.25 13.0596 16.25 13.75V21.25C16.25 21.9404 15.6904 22.5 15 22.5C14.3096 22.5 13.75 21.9404 13.75 21.25ZM7.5 23.75L7.5061 23.8733C7.53447 24.1595 7.66103 24.4286 7.86621 24.6338C8.10063 24.8682 8.41848 25 8.75 25H21.25C21.5815 25 21.8994 24.8682 22.1338 24.6338C22.3682 24.3994 22.5 24.0815 22.5 23.75V10.5176L16.9824 5H8.75C8.41848 5 8.10063 5.13179 7.86621 5.36621C7.63179 5.60063 7.5 5.91848 7.5 6.25V23.75Z"/>
+        <path d="M14.2107 12.7802C14.7017 12.3797 15.426 12.4086 15.8837 12.8663L19.0087 15.9913C19.4969 16.4794 19.4969 17.2707 19.0087 17.7589C18.5205 18.247 17.7293 18.247 17.2411 17.7589L14.9999 15.5177L12.7587 17.7589C12.2705 18.247 11.4793 18.247 10.9911 17.7589C10.503 17.2707 10.503 16.4794 10.9911 15.9913L14.1161 12.8663L14.2107 12.7802Z"/>
+        </svg>Subir documento</button>
+        </section>
 
     <script src="header2.js"></script>
     <script src="script.js"></script>
