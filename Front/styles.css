@@ -3,11 +3,12 @@
 *{
     box-sizing: border-box;
     text-decoration: none;
+    margin: 0;
 }
 
 :root {
-    --color-primario: #121f37; 
-    --color-link: #374151;
+    --color-primario: #001435;  
+    --color-link: #FFFFF380;
     --color-acento: #007bff; 
     --color-fondo-claro: #fcf8f0; 
     --color-boton-oscuro: #000d23; 
@@ -94,7 +95,6 @@ nav {
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: var(--color-primario);
 }
 
 .avatar-container img {
@@ -105,7 +105,7 @@ nav {
 }
 
 /*inputs*/
-input{
+input, select{
     font-family: 'Noto Sans Thai Looped', sans-serif;
     padding: 0.7rem; 
     font-size: var(--size-p);
@@ -122,3 +122,31 @@ input:focus, select:focus{
     box-shadow: 0 0 3px var(--color-acento);
 }
 
+/*FOOTER*/
+footer{
+    display: flex;
+    padding: 4rem 3.5rem;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--color-primario);
+    color: var(--color-link);
+    margin-top: 5rem;
+    
+    a{
+        color: var(--color-link);
+    }
+
+    img{
+        height: 35px;
+    }
+}
+
+.iconos{
+    display: flex;
+    flex-direction: row;
+    gap: 1.7rem;
+}
+
+.iconos img{
+    height: 30px;
+}
