@@ -1,0 +1,140 @@
+/*HEADER*/
+
+header nav a {
+    position: relative;
+    text-decoration: none;
+}
+
+header nav a::after {
+    content: "";
+    position: absolute;
+    bottom: -3px;
+    left: 50%;
+    width: 0;
+    height: 2px;
+    background-color: var(--color-acento);
+    transition: all 0.3s ease;
+    transform: translateX(-50%);
+}
+
+header nav a:hover::after {
+    width: 100%;
+}
+
+/*section principal*/
+.newNota{
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 2rem;
+    min-height: 80vh;   
+}
+
+h1{
+    margin-bottom: 2rem;
+}
+
+h3{
+    margin-top: 3rem;
+    margin-bottom: 2rem;
+    color: #9b9b98;
+}
+
+.claseDeNota{
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+}
+
+/* Primer <p>: borde naranja + texto color primario */
+#carreraUser {
+    border: 1.5px solid var(--color-naranja);
+    color: var(--color-primario);
+    padding: 0.3rem 1.5rem;
+    border-radius: 20px;
+}
+
+/* Segundo <p>: fondo naranja + texto blanco */
+#tipoDeNota {
+    background-color: var(--color-naranja);
+    color: #ffffff;
+    padding: 0.3rem 1.5rem;
+    border-radius: 20px;
+}
+
+h4{
+    color: #9b9b98;
+    margin: 1.5rem 0;
+    font-weight: 500;
+}
+
+textarea{
+    width: 100%;              
+    Height: 300px;        
+    padding: 0.8rem 1rem;     
+    border: 1px solid var(--color-primario); 
+    border-radius: 5px;
+    background-color: transparent;
+    resize: vertical;     
+    font-family: inherit; 
+    font-size: var(--size-p);
+    outline: none;
+    box-sizing: border-box;  
+    color: var(--color-primario);
+    margin-bottom: 3rem;
+}
+
+.botones{
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+#descargarSum{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.7rem;
+    font-family: inherit;
+    font-weight: 600;
+    cursor: pointer;
+    color: var(--color-primario);
+    background-color: var(--color-amarillo);
+    padding: 0.4rem 1.3rem;
+    border-radius: 10px;
+    border: 2px solid transparent;
+    font-size: var(--size-p);
+    transition: background-color 0.25s ease, filter 0.25s ease;
+}
+
+#descargarSum:hover {
+    background-color: var(--color-fondo-claro);   
+    border-color: var(--color-amarillo);
+    color: var(--color-primario);
+    font-weight: 700;
+}
+
+#guardarSum{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.7rem;
+    font-family: inherit;
+    font-weight: 600;
+    cursor: pointer;
+    color: var(--color-primario);
+    background-color: transparent;
+    padding: 0.4rem 1.3rem;
+    border-radius: 10px;
+    border: 2px solid var(--color-primario);
+    font-size: var(--size-p);
+    transition: background-color 0.25s ease, filter 0.25s ease;
+}
+
+#guardarSum:hover{
+    color: var(--color-acento);
+}

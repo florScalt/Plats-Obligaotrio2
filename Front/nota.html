@@ -5,26 +5,32 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nota - Plats</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="nota.css">
 </head>
 <body>
     <section class="newNota">
-        <h2>Biblioteca compartida ></h2>
+        <h3>Biblioteca compartida ></h3>
         <h1>Nueva nota</h1>
 
         <div class="claseDeNota">
             <p id="carreraUser">Carrera</p>
             <p id="tipoDeNota">Resumen</p>
         </div>
+
+        <h4 id="nombreUser">Nombre usuario</h4>
         
-        <textarea name="" id=""></textarea>
+        <textarea name="" id="textAreaNota"></textarea>
 
         <div class="botones">
-            <button id="descargarSum">Descargar resumen</button>
-            <button id="guardarSum">Guardar y subir resumen</button>
+            <button id="descargarSum"><svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M30 28.5C30.8284 28.5 31.5 29.1716 31.5 30C31.5 30.8284 30.8284 31.5 30 31.5H6C5.17157 31.5 4.5 30.8284 4.5 30C4.5 29.1716 5.17157 28.5 6 28.5H30ZM16.5 6C16.5 5.17157 17.1716 4.5 18 4.5C18.8284 4.5 19.5 5.17157 19.5 6V17.3789L22.9395 13.9395C23.5252 13.3537 24.4748 13.3537 25.0605 13.9395C25.6463 14.5252 25.6463 15.4748 25.0605 16.0605L19.0605 22.0605C18.4748 22.6463 17.5252 22.6463 16.9395 22.0605L10.9395 16.0605C10.3537 15.4748 10.3537 14.5252 10.9395 13.9395C11.5252 13.3537 12.4748 13.3537 13.0605 13.9395L16.5 17.3789V6Z" fill="black"/>
+</svg>Descargar resumen</button>
+            <button id="guardarSum"><img src="../img/guardarIcon.svg" alt="guardar icono">Guardar y subir resumen</button>
         </div>
     </section>
 
     <script src="header2.js"></script>
+    <script src="script.js"></script>
     <script src="fotoPerfil.js"></script>
 </body>
 </html>

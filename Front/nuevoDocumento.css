@@ -87,10 +87,10 @@ h3{
     cursor: pointer;
     font-weight: 600;
     transition:
-        background-color .25s ease,
-        border-color .25s ease,
-        color .25s ease,
-        box-shadow .25s ease;
+    background-color .25s ease,
+    border-color .25s ease,
+    color .25s ease,
+    box-shadow .25s ease;
 }
 
 /*Resumen sin seleccionar*/
@@ -233,7 +233,7 @@ label.radio-op:has(#opcionDocumento:checked) {
     cursor: pointer;
     color: var(--color-fondo-claro);
     background-color: var(--color-naranja);
-    padding: 0.7rem 1.3rem;
+    padding: 0.4rem 1.3rem;
     border-radius: 10px;
     border: 2px solid transparent;
     font-size: var(--size-p);
