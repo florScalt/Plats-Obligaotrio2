@@ -132,13 +132,12 @@ app.get("/usuario/:correo", async (req, res) => {
 })
 
 //BUSCAR USUARIO POR ID
-app.get("/usuario/id/:id", async (req, res) => {
+app.get("/usuario/id/:idUsuario", async (req, res) => {
     try {
-        const params = req.params
-        const idBusqueda = params.id
+        const idBusqueda = req.params.idUsuario
         const usuarioBusqueda = await Usuarios.findById(idBusqueda)
         res.json(usuarioBusqueda)
-        console.log(usuarioBusqueda)
+        console.log("usuario busqueda:", usuarioBusqueda)
         console.log("Se encontró el usuario exitosamente por id")
     } catch (e) {
         console.log(e)

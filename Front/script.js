@@ -63,9 +63,10 @@ async function mostrarDocumentos(arrayDocumentos) {
             ? documento.descripcion.substring(0, 80) + "..."
             : documento.descripcion
 
-        console.log("Buscando usuario por ID:", documento.creador)
         const respuestaUsuario = await fetch(`${BASE_URL}/usuario/id/${documento.creador}`)
+        console.log("id creador del doc:", documento.creador)
         const usuario = await respuestaUsuario.json()
+        console.log(usuario)
 
         const nombreCreador = usuario.datos.nombre
 
@@ -153,14 +154,18 @@ async function crearDocumento() {
         return;
     }
 
+    const usuarioActual = JSON.parse(localStorage.getItem("usuarioLogueado"))
+
     // Crear FormData en lugar de JSON
     const formData = new FormData();
     formData.append("archivo", archivo); // el nombre debe coincidir con el que Multer espera
     formData.append("nombreDoc", nombreNuevoDoc.value);
     formData.append("carreraDoc", carreraNuevoDoc.value);
     formData.append("tipoDoc", tipo);
-    formData.append("creador", "691f16b3fa07849bc66be8aa"); // linkear usuario real
+    formData.append("creador", usuarioActual._id); // linkear usuario real
     formData.append("descripcion", descNuevoDoc.value);
+
+    console.log("formData", formData)
 
     try {
         const response = await fetch(`${BASE_URL}/biblioteca/nuevo-documento`, {
