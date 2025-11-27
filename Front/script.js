@@ -138,7 +138,6 @@ async function filtrarPorNombre() {
     }
 }
 
-
 // AGREGAR DOCUMENTO EN NUEVO-DOCUMENTO.HTML
 async function crearDocumento() {
     const tipo =
