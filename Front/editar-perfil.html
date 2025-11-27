@@ -3,35 +3,71 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Editar perfil - Plats</title>
+    <title>Mi perfil - Plats</title>
 </head>
 <body>
     <header>
         <a href="">PLATS</a>
         <nav>
-            <a href="">Inicio</a>
-            <a href="">Biblioteca compartida</a>
-            <a href="">Notas</a>
+            <a href="inicio.html">Inicio</a>
+            <a href="biblioteca.html">Biblioteca compartida</a>
+            <a href="nota.html">Notas</a>
             <a href="">Foro</a>
         </nav>
-        <a href="">Ft perfil</a>
-    </header>   
-
-    <section class="editarPerfil">
-        <div class="avatares">
-            <h2>Elige un avatar</h2>
-            <!-- Esto seria con un array -->
+        <div class="">
+            <img id="FtAvatarUsuario" src="" alt="">
         </div>
 
-        <div>
-            <input type="text" id="nombreUsuario">
-            <select name="" id="carreraSelect">
-                <option value="">Tu carrera</option>
-            </select>
-            <label for="">Cambio de contraseña</label>
+    </header>   
+
+    <section class="infoPerfil">
+        <div class="ftPerfil">
+
+        </div>
+        <div id="divEditarUsuario">
+            <h1>Editar Usuario</h1>
+            <div >
+                <div class="avatares">
+            <!-- array avatares -->
+            </div>
+            <div class="inputsRegistro">
+                <input type="text" id="editarNombre" placeholder="Nombre completo">
+                <select name="" id="editarCarrera">
+                    <option value="" disabled selected>Carrera que estudias</option>
+                    
+
+                </select>
+                <p>Cambio de contraseña</p>
+                <input type="text" id="editarPass" placeholder="Contraseña">
+            </div>
+            <button id="btnEditarPerfil">Guardar Cambios</button>
         </div>
     </section>
 
+    <section>
+        <h2>Mis documentos</h2>
+        <div id="DeleteDocsUsuario">
+        </div>
+    </section>
 
+    <footer>
+        <a href="">PLATS</a>
+        <div>
+            <p>Obligatorio 2 Programacion 2</p>
+            <p>Avril Estefan y Florencia Scaltritti</p>
+            <p>Universidad ORT Uruguay</p>
+        </div>
+
+        <div>
+            <a href="">icon1</a>
+            <a href="">icon2</a>
+            <a href="">icon3</a>
+        </div>
+        <p>Consultas: soporteplats@gmail.com</p>
+    </footer>    
+
+    <script src="perfil.js"></script>
+    <script src="fotoPerfil.js"></script>
+    <script src="perfil.js"></script>
 </body>
 </html>
