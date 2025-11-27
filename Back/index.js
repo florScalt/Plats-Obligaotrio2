@@ -150,8 +150,7 @@ app.get("/usuario/id/:id", async (req, res) => {
 //BUSCAR DOCUMENTO POR CARRERA
 app.get("/biblioteca/carrera/:carreraDoc", async (req, res) => {
     try {
-        const params = req.params
-        const carreraBusqueda = params.carreraDoc
+        const carreraBusqueda = req.params.carreraDoc
         const docBusqueda = await Documentos.find({ carreraDoc: carreraBusqueda })
         res.json(docBusqueda)
         console.log("Se encontró los docuementos por carrera")
@@ -178,15 +177,14 @@ app.get("/biblioteca/nombre/:nombreDoc", async (req, res) => {
     }
 });
 
-//BUSCAR DOCUMENTO POR CORREO DEL USUARIO
+
+//BUSCAR DOCUMENTO POR CREADOR
 app.get("/biblioteca/creador/:id", async (req, res) => {
     try {
         const idCreador = req.params.id
+        const DocsCreador = await Documentos.find({creador: idCreador })
 
-        const documentos = await Documentos.find({
-            creador: idCreador
-        })
-        res.json({ documentos })
+        res.json({ DocsCreador });
     } catch (e) {
         res.status(500).json({ message: e.message });
     }

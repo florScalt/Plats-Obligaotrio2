@@ -1,6 +1,7 @@
 const nombre = document.querySelector("#userName")
 const correo = document.querySelector("#userEmail")
 const carrera = document.querySelector("#userCarrera")
+const divDocsUsuario = document.querySelector("#documentosUsuario")
 
 const BASE_URL = "http://localhost:3000"
 
