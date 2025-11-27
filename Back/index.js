@@ -29,23 +29,25 @@ app.get("/", (req, res) => {
 //EDITAR USUARIO
 app.put("/usuario/editar/:correo", async (req, res) => {
     try {
-        const params = req.params.correo
-        console.log(params)
-        const body = req.body
+        const correo = req.params.correo; // correo del usuario a editar
+        const body = { ...req.body };
 
-        //puede editar nombre, carrera o pass. Tambien puede editar docs
-        if (!body.datos.nombre || !body.datos.carrera || !body.pass) {
-            res.status(400).send("Error al editar usuario")
+        console.log("Correo a editar:", correo);
+        console.log("Body recibido:", body);
+
+        const actualizado = await editarUsuario(correo, body);
+
+        if (!actualizado) {
+            return res.status(404).send("Usuario no encontrado");
         }
-        const actualizado = await editarUsuario(params.correo, body)
-        console.log(actualizado);
 
-        res.json(actualizado)
+        res.json(actualizado);
+
     } catch (e) {
-        console.log(e)
-        res.status(400).send("Usuario no encotrado")
+        console.log(e);
+        res.status(500).send("Error al editar usuario");
     }
-})
+});
 
 
 // CREAR USUARIO
@@ -322,11 +324,17 @@ async function crearDocumento(datosDoc) {
 
 async function editarUsuario(correo, nuevoUsuario) {
     try {
-        const actualizado = await Usuarios.findOneAndUpdate(correo, nuevoUsuario)
-        console.log(actualizado)
-        return actualizado
+        const actualizado = await Usuarios.findOneAndUpdate(
+            { correo: correo },     // filtro correcto
+            { $set: nuevoUsuario }, // actualizar campos
+            { new: true }           // devuelve el objeto actualizado
+        );
+
+        return actualizado;
+
     } catch (e) {
-        console.log(e.message)
+        console.log("Error en editarUsuario:", e.message);
+        return;
     }
 }
 
