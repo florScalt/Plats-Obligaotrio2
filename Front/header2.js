@@ -1,5 +1,5 @@
 /*HEADER PARA LAS OTRAS PANTALLAS*/
-document.addEventListener("DOMContentLoaded", () => {
+
     const header = `
         <header>
             <a href="#" class="logo">
@@ -19,5 +19,4 @@ document.addEventListener("DOMContentLoaded", () => {
     `;
     
     document.body.insertAdjacentHTML("afterbegin", header);
-});
 

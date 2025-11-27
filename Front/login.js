@@ -47,7 +47,7 @@ function verificarUsuario(usuarioDelServidor) {
     }
 
     if (usuarioDelServidor.pass === passIngresada) {
-        console.log("Login correcto ✔");
+        console.log("Login correcto");
 
         // Guardar usuario en localStorage
         localStorage.setItem("usuarioLogueado", JSON.stringify(usuarioDelServidor));
