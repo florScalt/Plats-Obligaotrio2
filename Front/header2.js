@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 PLATS
             </a>
             <nav>
-               <a href="./inicio.html">Inicio</a>
+               <a href="./inicio.html" class="active">Inicio</a>
                <a href="./biblioteca.html">Biblioteca compartida</a>
                <a href="./nota.html">Notas</a>
                <a href="">Foro</a>

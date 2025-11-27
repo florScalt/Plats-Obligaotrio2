@@ -1,0 +1,234 @@
+
+/*HEADER*/
+header nav a {
+    position: relative;
+    text-decoration: none;
+}
+
+header nav a::after {
+    content: "";
+    position: absolute;
+    bottom: -3px;
+    left: 50%;
+    width: 0;
+    height: 2px;
+    background-color: var(--color-acento);
+    transition: all 0.3s ease;
+    transform: translateX(-50%);
+}
+
+header nav a:hover::after {
+    width: 100%;
+}
+
+nav a.active {
+    font-weight: 800;
+    color: var(--color-primario); /* opcional */
+}
+
+/*HERO SECTION*/
+#hero {
+    width: 100%;
+    max-width: 1200px;
+    display: flex;
+    flex-direction: row;
+    margin: 0 auto;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 2rem;
+    min-height: 75vh;
+}
+
+.presentacion{
+    width: 40%;
+
+    p{
+        margin-top: 2rem;
+    }
+}
+
+.ilustracionHero{
+    width: 60%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.ilustracionHero img {
+    max-width: 450px;
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+}
+
+/*SELECCION SECTION*/
+#select-section{
+    width: 100%;
+    max-width: 1200px;
+    display: flex;
+    flex-direction: row;
+    margin: 0 auto;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 2rem; 
+    min-height: 55vh;
+
+    a{
+        border: 1px solid var(--color-primario);
+        padding: 2rem;
+    }
+}
+
+#select-section a {
+    width: 350px;
+    height: 300px;                
+    border: 2px solid;
+    border-radius: 20px;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;       
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    text-align: center;
+    color: inherit;
+    text-decoration: none;
+    transition: .3s ease;
+}
+
+#select-section a:nth-child(1) {
+    border-color: #FF6B38; 
+}
+
+#select-section a:nth-child(2) {
+    border-color: #00C66C; 
+}
+
+#select-section a:nth-child(3) {
+    border-color: #FFC52A; 
+}
+
+/* IMÁGENES GRANDES */
+#select-section a img {
+    height: 200px;                
+    width: auto;
+    object-fit: contain;          
+}
+
+/* TÍTULOS */
+#select-section a h3 {
+    font-weight: 500;
+    margin: 0;
+}
+
+/* HOVER */
+#select-section a:hover {
+    transform: translateY(-6px);
+    background-color: #fff;
+}
+
+.card-notas {
+    position: relative;
+}
+
+#addNota {
+    position: absolute;
+    top: 0.6rem;
+    right: -2rem;
+
+    background: #FFC52A;
+    color: #000;
+    padding: 0.5rem 0.7rem;
+    border-radius: 10px;
+    font-size: 0.8rem;
+    font-weight: 500;
+
+    display: inline-block;
+    text-decoration: none;
+    cursor: pointer;
+
+    border: 2px solid #fff;
+}
+
+/*SECTION ULTIMOS DOCUMENTOS*/
+
+#ultimosDocs{
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 2rem;
+    min-height: 55vh;
+}
+
+h2 {
+    font-weight: 600;
+}
+
+.subtitulo{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    a{
+        color: var(--color-link);
+        text-decoration: underline;
+    }
+
+    a:hover{
+        text-decoration: none;
+    }
+}
+
+#contenedorArticulos {
+    display: grid;
+    gap: 1.5rem;           
+    grid-template-columns: repeat(2, 1fr); 
+    margin-top: 2rem;
+}
+
+#contenedorArticulos article {
+    border: 2px solid var(--color-primario);   
+    border-radius: 18px;
+    padding: 1.6rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    transition: 0.25s ease;
+}
+
+/* Hover suave como en la captura */
+#contenedorArticulos article:hover {
+    border-color: var(--color-acento);
+    cursor: pointer;
+}
+
+/* Título */
+#contenedorArticulos article h3 {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #072A5A; /* azul oscuro como tu estilo */
+    margin: 0;
+}
+
+/* Descripción */
+#contenedorArticulos article p {
+    font-size: 0.95rem;
+    color: var(--color-primario);
+    margin: 0;
+}
+
+/* Badge de carrera */
+#contenedorArticulos article h5 {
+    display: inline-block;
+    font-size: 0.9rem;
+    padding: 0.3rem 0.9rem;
+    border: 2px solid #FF6B38; /* azul Google style */
+    border-radius: 20px;
+    font-weight: 500;
+    color: var(--color-primario);
+    margin: 0.4rem 0;
+    width: fit-content;
+}
+

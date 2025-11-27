@@ -1,7 +1,7 @@
 //IMPORTAR JS DEL HEADER Y FOOTER
 
 //ELEMENTOS DEL HTML
-const contenedorDocs = document.querySelector("#ultimosDocs")
+const contenedorDocs = document.querySelector("#contenedorArticulos");
 const divDocsBiblioteca = document.querySelector("#contenedorDocsBiblioteca")
 const carreraSelect = document.querySelector("#carreraSelect")
 const buscadorDoc = document.querySelector("#inputSearch")
