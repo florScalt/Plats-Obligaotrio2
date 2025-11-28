@@ -108,7 +108,7 @@ function mostrarDocumentosUsuario(arrayDocs) {
 
         const botonEliminar = divDeleteDocs ? 
             `<div class="btnEliminarDoc" onclick="eliminarDocumento('${documento._id}')" title="Eliminar documento">
-                <img src= img/trash.svg>
+                <img src= "img/trash.svg">
                 </div>` : '';
 
         contenedor.innerHTML += `
