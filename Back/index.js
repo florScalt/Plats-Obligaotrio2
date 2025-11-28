@@ -5,7 +5,7 @@ const Grid = require ("gridfs-stream")
 
 const Usuarios = require("./Usuarios")
 const Documentos = require("./Documentos")
-const { upload, uploadFile } = require("./upload");
+const { upload, uploadFile, downloadFile } = require("./upload");
 
 
 mongoose.connection.once("open", () => {
@@ -177,6 +177,27 @@ app.get("/biblioteca/nombre/:nombreDoc", async (req, res) => {
     }
 });
 
+//BUSCAR DOCUMENTO POR ID
+// GET documento por ID
+app.get("/biblioteca/:id", async (req, res) => {
+    try {
+        const docId = req.params.id;
+        
+        const documento = await Documentos.findById(docId);
+        
+        if (!documento) {
+            return res.status(404).json({ message: "Documento no encontrado" });
+        }
+
+        console.log("Documento encontrado:", documento.nombreDoc);
+        res.json(documento);
+        
+    } catch (e) {
+        console.log("Error al buscar documento:", e.message);
+        res.status(500).json({ message: "Error al buscar el documento" });
+    }
+});
+
 
 //BUSCAR DOCUMENTO POR CREADOR
 app.get("/biblioteca/creador/:id", async (req, res) => {
@@ -256,17 +277,52 @@ app.delete("/biblioteca/eliminar/:id", async (req, res) => {
     }
 })
 
-//DESCARGAR ARCHVO POR FILENAME
-app.get("/archivo/:filename", async (req, res) => {
-  try {
-    const file = await gfs.files.findOne({ filename: req.params.filename });
-    if (!file) return res.status(404).send("Archivo no encontrado");
 
-    const readstream = gfs.createReadStream(file.filename);
-    readstream.pipe(res);
-  } catch (err) {
-    res.status(500).send(err.message);
-  }
+//DESCARGAR ARCHIVOS POR ID
+app.get("/biblioteca/descargar/:id", async (req, res) => {
+    try {
+        const docId = req.params.id;
+        
+        // Buscar el documento en la BD
+        const documento = await Documentos.findById(docId);
+        
+        if (!documento) {
+            return res.status(404).send("Documento no encontrado");
+        }
+
+        // Descargar archivo de GridFS
+        const fileData = await downloadFile(documento.archivo);
+        
+        if (!fileData) {
+            return res.status(404).send("Archivo no encontrado en GridFS");
+        }
+
+        // Codificar el nombre del archivo correctamente
+        const encodedFilename = encodeURIComponent(fileData.filename);
+
+        // Configurar headers para descarga
+        res.set({
+            'Content-Type': fileData.contentType,
+            'Content-Disposition': `attachment; filename*=UTF-8''${encodedFilename}`,
+        });
+
+        // Stream del archivo al cliente
+        fileData.stream.pipe(res);
+
+        fileData.stream.on('end', () => {
+            fileData.closeConnection();
+        });
+
+        fileData.stream.on('error', (error) => {
+            console.error("Error al descargar:", error);
+            fileData.closeConnection();
+            res.status(500).send("Error al descargar el archivo");
+        });
+
+    } catch (e) {
+        console.log("Error en descarga:", e);
+        res.status(500).send("Error al procesar la descarga");
+    }
 });
 
 

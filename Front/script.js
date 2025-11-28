@@ -14,7 +14,12 @@ const contenedorDocs = document.querySelector("#contenedorArticulos");
 const divDocsBiblioteca = document.querySelector("#contenedorDocsBiblioteca")
 const carreraSelect = document.querySelector("#carreraSelect")
 const buscadorDoc = document.querySelector("#inputSearch")
-
+const carreraUser = document.querySelector("#carreraUser");
+const tipoDeNota = document.querySelector("#tipoDeNota");
+const nombreUser = document.querySelector("#nombreUser");
+const textAreaNota = document.querySelector("#textAreaNota");
+const btnDescargar = document.querySelector("#descargarSum");
+const btnGuardar = document.querySelector("#guardarSum");
 
 
 //USUARIO ACTUAL
@@ -39,54 +44,39 @@ async function obtenerDocumentos() {
         console.log("No se pudo obtener los documentos")
     }
 }
-async function mostrarDocumentos(arrayDocumentos) {
-    //para ver en qué html estoy: no se puede usar una misma función en html que no estoy viendo activamente
-    if (contenedorDocs) contenedorDocs.innerHTML = ""
-    if (divDocsBiblioteca) divDocsBiblioteca.innerHTML = ""
+function mostrarDocumentos(arrayDocs) {
+    const contenedor = contenedorDocs || divDocsBiblioteca;
+    
+    if (!contenedor) return;
 
-    for (const documento of arrayDocumentos) {
+    contenedor.innerHTML = "";
 
+    if (arrayDocs.length === 0) {
+        contenedor.innerHTML = "<p>No hay documentos disponibles</p>";
+        return;
+    }
+
+    for (const documento of arrayDocs) {
         const descripcion = documento.descripcion.length > 80
             ? documento.descripcion.substring(0, 80) + "..."
-            : documento.descripcion
+            : documento.descripcion;
 
-        const respuestaUsuario = await fetch(`${BASE_URL}/usuario/id/${documento.creador}`)
-        console.log("id creador del doc:", documento.creador)
-        const usuario = await respuestaUsuario.json()
-        console.log(usuario)
+        const article = document.createElement("article");
+        article.innerHTML = `
+            <h3>${documento.nombreDoc}</h3>
+            <p>${descripcion}</p>
+            <h5>${documento.carreraDoc}</h5>
+            <h5>${documento.tipoDoc}</h5>
+            <p>${documento.creador?.datos?.nombre || "Usuario"}</p>
+        `;
 
-        const nombreCreador = usuario.datos.nombre
+        article.style.cursor = "pointer";
+        article.addEventListener("click", () => {
+            localStorage.setItem("documentoSeleccionado", documento._id);
+            window.location.href = "doc.html";
+        });
 
-        // Si estoy en inicio.html
-        if (contenedorDocs) {
-            const cantidadArticles = contenedorDocs.querySelectorAll("article").length;
-
-            if (cantidadArticles >= 4) { //para que solo muestre 4 articles en el inicio
-                return
-            }
-            contenedorDocs.innerHTML += `
-            <article>
-                <h3>${documento.nombreDoc}</h3>
-                <p>${descripcion}</p>
-                <h5>${documento.carreraDoc}</h5>
-                <p>${nombreCreador}</p>
-            </article>`
-
-        }
-
-        // Si estoy en biblioteca.html
-        if (divDocsBiblioteca) {
-            divDocsBiblioteca.innerHTML += `
-            <article>
-                <h3>${documento.nombreDoc}</h3>
-                <p>${descripcion}</p>
-                <div class="infodoc">
-                    <h5>${documento.carreraDoc}</h5>
-                    <h5 class="badge ${documento.tipoDoc === "Resumen" ? "resumen" : "documento"}">${documento.tipoDoc}</h5> 
-                 </div>
-                <p>${nombreCreador}</p>
-            </article>`
-        }
+        contenedor.appendChild(article);
     }
 }
 
@@ -240,6 +230,85 @@ async function crearDocumento() {
 }
 
 
+//CARGAR DOC EN DOC.HTML
+// CARGAR DOCUMENTO EN DOC.HTML
+async function cargarDocumento() {
+    const nombreDocumento = document.querySelector("#nombreDocumento");
+    const carreraDoc = document.querySelector("#carreraDoc");
+    const tipoDoc = document.querySelector("#tipoDoc");
+    const nombreCreador = document.querySelector("#nombreCreador");
+    const descripcionDocumento = document.querySelector("#descripcionDocumento");
+
+    const docId = localStorage.getItem("documentoSeleccionado");
+
+    if (!docId) {
+        alert("No se seleccionó ningún documento");
+        window.location.href = "inicio.html";
+        return;
+    }
+
+    try {
+        const respuesta = await fetch(`${BASE_URL}/biblioteca/${docId}`); // CAMBIO AQUÍ
+        
+        if (!respuesta.ok) {
+            throw new Error("Documento no encontrado");
+        }
+
+        const documento = await respuesta.json();
+        console.log("Documento cargado:", documento);
+
+        // Obtener info del creador
+        const respuestaCreador = await fetch(`${BASE_URL}/usuario/id/${documento.creador}`);
+        const creador = await respuestaCreador.json();
+
+        // Mostrar datos del documento
+        if (nombreDocumento) nombreDocumento.textContent = documento.nombreDoc;
+        if (carreraDoc) carreraDoc.textContent = documento.carreraDoc;
+        if (tipoDoc) tipoDoc.textContent = documento.tipoDoc;
+        if (nombreCreador) nombreCreador.textContent = creador.datos?.nombre || "Usuario";
+        if (descripcionDocumento) descripcionDocumento.textContent = documento.descripcion;
+
+    } catch (error) {
+        console.error("Error al cargar documento:", error);
+        alert("Error al cargar el documento");
+        window.location.href = "inicio.html";
+    }
+}
+
+// Función para descargar documento
+function descargarDocumento() {
+    const docId = localStorage.getItem("documentoSeleccionado");
+    
+    if (!docId) {
+        alert("No se seleccionó ningún documento");
+        return;
+    }
+
+    // Abrir el PDF en una nueva pestaña
+    window.open(`${BASE_URL}/biblioteca/descargar/${docId}`, '_blank');
+}
+
+// Función para ir a crear nota
+function irANota() {
+    window.location.href = "nota.html";
+}
+
+// Ejecutar si estamos en doc.html
+const checkDocPage = document.querySelector("#nombreDocumento");
+if (checkDocPage) {
+    const btnDescargarDoc = document.querySelector("#descargarDoc");
+    const btnAgregarNota = document.querySelector("#agregarNota");
+    
+    cargarDocumento();
+    
+    if (btnDescargarDoc) {
+        btnDescargarDoc.addEventListener("click", descargarDocumento);
+    }
+    
+    if (btnAgregarNota) {
+        btnAgregarNota.addEventListener("click", irANota);
+    }
+}
 
 
 
