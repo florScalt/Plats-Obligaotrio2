@@ -7,7 +7,7 @@ const Usuarios = require("./Usuarios")
 const Documentos = require("./Documentos")
 const { upload, uploadFile, downloadFile } = require("./upload");
 
-
+//concecta GridFS y le dice que lo va a guardar en uploads
 mongoose.connection.once("open", () => {
   gfs = Grid(mongoose.connection.db, mongoose.mongo);
   gfs.collection("uploads");
@@ -26,28 +26,32 @@ app.get("/", (req, res) => {
 
 //----------------------------------- ENPOINTS --------------------------------------
 
+
+//------------------ USUARIOS-------------------
+
 //EDITAR USUARIO
 app.put("/usuario/editar/:correo", async (req, res) => {
     try {
-        const correo = req.params.correo; // correo del usuario a editar
-        const body = { ...req.body };
+        const correo = req.params.correo
+        const body = { ...req.body } //los ... hacen una copia del body. Es para que como ya hay datos en el html, no edite el usuario y deje vacíos los datos que no se modifican
 
-        console.log("Correo a editar:", correo);
-        console.log("Body recibido:", body);
+        console.log("Correo a editar:", correo)
+        console.log("Body recibido:", body)
 
         const actualizado = await editarUsuario(correo, body);
 
         if (!actualizado) {
-            return res.status(404).send("Usuario no encontrado");
+            res.status(404).send("Usuario no encontrado")
+            return
         }
 
-        res.json(actualizado);
+        res.json(actualizado)
 
     } catch (e) {
-        console.log(e);
-        res.status(500).send("Error al editar usuario");
+        console.log(e)
+        res.status(500).send("Error al editar usuario")
     }
-});
+})
 
 
 // CREAR USUARIO
@@ -56,7 +60,7 @@ app.post("/registrarse", async (req, res) => {
 
         const body = req.body
         console.log(body)
-        const correoUsuario = body.correo?.toLowerCase().trim()
+        const correoUsuario = body.correo?.toLowerCase().trim() //el ? es para que de undefined y no rompa el código
         const passUsuario = body.pass
         const nombreUsuario = body.datos.nombre
         const carreraUsuario = body.datos.carrera
@@ -76,16 +80,13 @@ app.post("/registrarse", async (req, res) => {
             return
         }
         if (!carreraUsuario) {
-            res.status(400).send("Falta la carrera que cursa el usuario")
+            res.status(400).send("Falta la carrera")
             return
         }
         if (!fotoPerfil) {
             res.status(400).send("Falta elegir una foto de perfil")
             return
         }
-
-
-
 
         console.log("usuario recibido", correoUsuario)
         const usuarioExistente = await buscarUsuarioPorCorreo(correoUsuario)
@@ -107,13 +108,12 @@ app.post("/registrarse", async (req, res) => {
             return
 
         } else {
-
             res.status(400).send("Este correo ya está registrado prueba con otro")
             return
         }
 
     } catch (e) {
-        console.log(e);
+        console.log(e)
     }
 })
 
@@ -148,6 +148,12 @@ app.get("/usuario/id/:idUsuario", async (req, res) => {
     }
 })
 
+
+
+
+
+
+//------------------ DOCUMENTOS -------------------
 //BUSCAR DOCUMENTO POR CARRERA
 app.get("/biblioteca/carrera/:carreraDoc", async (req, res) => {
     try {
@@ -178,23 +184,22 @@ app.get("/biblioteca/nombre/:nombreDoc", async (req, res) => {
 });
 
 //BUSCAR DOCUMENTO POR ID
-// GET documento por ID
 app.get("/biblioteca/:id", async (req, res) => {
     try {
-        const docId = req.params.id;
-        
-        const documento = await Documentos.findById(docId);
+        const docId = req.params.id
+        const documento = await Documentos.findById(docId)
         
         if (!documento) {
-            return res.status(404).json({ message: "Documento no encontrado" });
+            res.status(404).json({ message: "Documento no encontrado" })
+            return
         }
 
-        console.log("Documento encontrado:", documento.nombreDoc);
-        res.json(documento);
+        console.log("Documento encontrado:", documento.nombreDoc)
+        res.json(documento)
         
     } catch (e) {
-        console.log("Error al buscar documento:", e.message);
-        res.status(500).json({ message: "Error al buscar el documento" });
+        console.log("Error al buscar documento:", e.message)
+        res.status(500).json({ message: "Error al buscar el documento" })
     }
 });
 
@@ -214,26 +219,23 @@ app.get("/biblioteca/creador/:id", async (req, res) => {
 
 
 //SUBIR DOCUMENTOS
-app.post("/biblioteca/nuevo-documento", upload.single("archivo"), async (req, res) => {
+app.post("/biblioteca/nuevo-documento", upload.single("archivo"), async (req, res) => { //el upload.single es Multer buscando el archivo
     try {
         const file = req.file;
         const body = req.body;
 
         if (!file) {
-            return res.status(400).send("Falta el archivo");
+            return res.status(400).send("Falta el archivo")
         }
+        const fileId = await uploadFile(file) //para subir a GridFS
 
-        // Subir a GridFS
-        const fileId = await uploadFile(file);
-
-        // Crear documento en MongoDB con link al fileId
         const nuevoDoc = {
             nombreDoc: body.nombreDoc,
             carreraDoc: body.carreraDoc,
             tipoDoc: body.tipoDoc,
             creador: body.creador,
             descripcion: body.descripcion,
-            archivo: fileId, // guardamos solo el id de GridFS
+            archivo: fileId, //se guarda el id de GridFS
         };
 
         await Documentos.create(nuevoDoc);
@@ -282,42 +284,36 @@ app.delete("/biblioteca/eliminar/:id", async (req, res) => {
 app.get("/biblioteca/descargar/:id", async (req, res) => {
     try {
         const docId = req.params.id;
-        
-        // Buscar el documento en la BD
         const documento = await Documentos.findById(docId);
         
         if (!documento) {
-            return res.status(404).send("Documento no encontrado");
+            return res.status(404).send("Documento no encontrado")
         }
 
-        // Descargar archivo de GridFS
-        const fileData = await downloadFile(documento.archivo);
+        const fileData = await downloadFile(documento.archivo); //acá descarga el archivo de GridFS
         
         if (!fileData) {
-            return res.status(404).send("Archivo no encontrado en GridFS");
+            return res.status(404).send("Archivo no encontrado en GridFS")
         }
 
-        // Codificar el nombre del archivo correctamente
-        const encodedFilename = encodeURIComponent(fileData.filename);
+        const encodedFilename = encodeURIComponent(fileData.filename); //puse el encodeURI por que a veces los nombres de los docs que se suben no son compatibles
 
-        // Configurar headers para descarga
+        // Esto es de GridFS para configurar el nombre de descarga (configura los HTTP para que la compu sepa como descargarlo):
         res.set({
             'Content-Type': fileData.contentType,
             'Content-Disposition': `attachment; filename*=UTF-8''${encodedFilename}`,
-        });
+        })
 
-        // Stream del archivo al cliente
+        //sobre conextion GridFS y chrome
         fileData.stream.pipe(res);
-
         fileData.stream.on('end', () => {
             fileData.closeConnection();
-        });
-
+        })
         fileData.stream.on('error', (error) => {
             console.error("Error al descargar:", error);
             fileData.closeConnection();
             res.status(500).send("Error al descargar el archivo");
-        });
+        })
 
     } catch (e) {
         console.log("Error en descarga:", e);

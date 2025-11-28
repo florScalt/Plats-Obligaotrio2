@@ -23,7 +23,7 @@ const btnGuardar = document.querySelector("#guardarSum");
 
 
 //USUARIO ACTUAL
-const usuarioActual = JSON.parse(localStorage.getItem("usuarioLogueado")); //lo guardó el login
+const usuarioActual = JSON.parse(localStorage.getItem("usuarioLogueado")) //lo guardó el login
     if (!usuarioActual) {
         window.location.href = "login.html"; // si no está logueado lo manda a login.html
     }
@@ -70,7 +70,6 @@ function mostrarDocumentos(arrayDocs) {
             <p>${documento.creador?.datos?.nombre || "Usuario"}</p>
         `;
 
-        article.style.cursor = "pointer";
         article.addEventListener("click", () => {
             localStorage.setItem("documentoSeleccionado", documento._id);
             window.location.href = "doc.html";
@@ -81,71 +80,66 @@ function mostrarDocumentos(arrayDocs) {
 }
 
 //FILTRAR DOCS POR CARRERA
-//FILTRAR DOCS POR CARRERA
 async function filtarPorCarrera() {
-    const carrera = carreraSelect.value;
+    const carrera = carreraSelect.value
 
-    console.log("Carrera seleccionada:", carrera);
+    console.log("Carrera seleccionada:", carrera)
 
     if (!carrera) {
-        obtenerDocumentos(); // Si no hay selección, mostrar todos
-        return;
+        obtenerDocumentos() //si no hay carrera seleccionada, mostrar todos
+        return
     }
 
     try {
         const carreraEncoded = encodeURIComponent(carrera);
-        const respuesta = await fetch(`${BASE_URL}/biblioteca/carrera/${carreraEncoded}`);
-        
-        if (!respuesta.ok) {
-            throw new Error("Error en la respuesta");
-        }
+        const respuesta = await fetch(`${BASE_URL}/biblioteca/carrera/${carreraEncoded}`)
 
-        const data = await respuesta.json();
-        console.log("Datos recibidos:", data);
+        const data = await respuesta.json()
+        console.log("Datos recibidos:", data)
 
         if (data.length > 0) {
-            mostrarDocumentos(data);
+            mostrarDocumentos(data)
         } else {
             if (divDocsBiblioteca) {
-                divDocsBiblioteca.innerHTML = `<h3>No hay documentos relacionados a tu búsqueda</h3>`;
+                divDocsBiblioteca.innerHTML = `<h3>No hay documentos relacionados a tu búsqueda</h3>`
             }
         }
     } catch (error) {
-        console.error("Error al filtrar por carrera:", error);
+        console.error("Error al filtrar por carrera:", error)
         if (divDocsBiblioteca) {
-            divDocsBiblioteca.innerHTML = `<h3>No hay documentos relacionados a tu búsqueda</h3>`;
+            divDocsBiblioteca.innerHTML = `<h3>No hay documentos relacionados a tu búsqueda</h3>`
         }
     }
 }
 
 //FILTRAR POR NOMBRE DEL DOC
 async function filtrarPorNombre() {
-    const nombre = buscadorDoc.value.trim();
+    const nombre = buscadorDoc.value.trim()
 
     if (nombre === "") {
-        obtenerDocumentos(); // por si el usuario borra en la búsqueda, que devuelva todos los docs
-        return;
+        obtenerDocumentos() // por si el usuario borra en la búsqueda, que devuelva todos los docs
+        return
     }
 
-    const res = await fetch(`${BASE_URL}/biblioteca/nombre/${encodeURIComponent(nombre)}`);
-    const data = await res.json();
+    const res = await fetch(`${BASE_URL}/biblioteca/nombre/${encodeURIComponent(nombre)}`)
+    const data = await res.json()
 
     if (data.documentos.length > 0) {
-        mostrarDocumentos(data.documentos);
+        mostrarDocumentos(data.documentos)
     } else {
-        divDocsBiblioteca.innerHTML = "<h3>No hay documentos con ese nombre</h3>";
+        divDocsBiblioteca.innerHTML = "<h3>No hay documentos con ese nombre</h3>"
     }
 }
 
 
 //DRAG AND DROP EN NUEVO-DOCUMENTO.HTML
 if (dropZone && inputArchivo) {
-    // Click en la zona para abrir selector
+    //click para selector de docs
     dropZone.addEventListener("click", () => {
         inputArchivo.click();
     });
 
-    // Prevenir comportamiento por defecto
+    //drag
     ["dragenter", "dragover", "dragleave", "drop"].forEach(eventName => {
         dropZone.addEventListener(eventName, (e) => {
             e.preventDefault();
@@ -172,42 +166,42 @@ async function crearDocumento() {
     const archivo = inputArchivo.files[0];
 
     if (!nombreNuevoDoc.value.trim()) {
-        alert("Debes ingresar un nombre para el documento");
+        alert("Debes ingresar un nombre para el documento")
         return;
     }
 
     if (!carreraNuevoDoc.value) {
-        alert("Debes seleccionar una carrera");
+        alert("Debes seleccionar una carrera")
         return;
     }
 
     if (!descNuevoDoc.value.trim()) {
-        alert("Debes ingresar una descripción");
+        alert("Debes ingresar una descripción")
         return;
     }
 
     if (!archivo) {
-        alert("Debes seleccionar un archivo PDF");
+        alert("Debes seleccionar un archivo PDF")
         return;
     }
 
-    const usuarioActual = JSON.parse(localStorage.getItem("usuarioLogueado"));
+    const usuarioActual = JSON.parse(localStorage.getItem("usuarioLogueado"))
 
     if (!usuarioActual) {
-        alert("No hay usuario logueado");
-        window.location.href = "login.html";
-        return;
+        alert("No hay usuario logueado")
+        window.location.href = "login.html"
+        return
     }
 
     const formData = new FormData();
-    formData.append("archivo", archivo);
-    formData.append("nombreDoc", nombreNuevoDoc.value.trim());
-    formData.append("carreraDoc", carreraNuevoDoc.value);
-    formData.append("tipoDoc", tipo);
-    formData.append("creador", usuarioActual._id);
-    formData.append("descripcion", descNuevoDoc.value.trim());
+    formData.append("archivo", archivo)
+    formData.append("nombreDoc", nombreNuevoDoc.value.trim())
+    formData.append("carreraDoc", carreraNuevoDoc.value)
+    formData.append("tipoDoc", tipo)
+    formData.append("creador", usuarioActual._id)
+    formData.append("descripcion", descNuevoDoc.value.trim())
 
-    btnSubirDoc.disabled = true;
+    btnSubirDoc.disabled = true
 
     try {
         const response = await fetch(`${BASE_URL}/biblioteca/nuevo-documento`, {
@@ -216,97 +210,87 @@ async function crearDocumento() {
         });
 
         if (response.ok) {
-            alert("Documento subido con éxito");
-            window.location.href = "biblioteca.html";
+            alert("Documento subido con éxito")
+            window.location.href = "biblioteca.html"
         } else {
-            alert("Error al subir el documento");
-            btnSubirDoc.disabled = false;
+            alert("Error al subir el documento")
+            btnSubirDoc.disabled = false
         }
     } catch (e) {
         console.error(e);
-        alert("Error en la conexión con el servidor");
-        btnSubirDoc.disabled = false;
+        alert("Error en la conexión con el servidor")
+        btnSubirDoc.disabled = false
     }
 }
 
 
-//CARGAR DOC EN DOC.HTML
-// CARGAR DOCUMENTO EN DOC.HTML
+//CARGAR DOCUMENTO EN DOC.HTML
 async function cargarDocumento() {
-    const nombreDocumento = document.querySelector("#nombreDocumento");
-    const carreraDoc = document.querySelector("#carreraDoc");
-    const tipoDoc = document.querySelector("#tipoDoc");
-    const nombreCreador = document.querySelector("#nombreCreador");
-    const descripcionDocumento = document.querySelector("#descripcionDocumento");
+    const nombreDocumento = document.querySelector("#nombreDocumento")
+    const carreraDoc = document.querySelector("#carreraDoc")
+    const tipoDoc = document.querySelector("#tipoDoc")
+    const nombreCreador = document.querySelector("#nombreCreador")
+    const descripcionDocumento = document.querySelector("#descripcionDocumento")
 
-    const docId = localStorage.getItem("documentoSeleccionado");
+    const docId = localStorage.getItem("documentoSeleccionado")
 
     if (!docId) {
-        alert("No se seleccionó ningún documento");
-        window.location.href = "inicio.html";
+        alert("No se seleccionó ningún documento")
+        window.location.href = "inicio.html"
         return;
     }
 
     try {
-        const respuesta = await fetch(`${BASE_URL}/biblioteca/${docId}`); // CAMBIO AQUÍ
-        
-        if (!respuesta.ok) {
-            throw new Error("Documento no encontrado");
-        }
-
-        const documento = await respuesta.json();
-        console.log("Documento cargado:", documento);
+        const respuesta = await fetch(`${BASE_URL}/biblioteca/${docId}`)
+        const documento = await respuesta.json()
+        console.log("Documento cargado:", documento)
 
         // Obtener info del creador
-        const respuestaCreador = await fetch(`${BASE_URL}/usuario/id/${documento.creador}`);
-        const creador = await respuestaCreador.json();
+        const respuestaCreador = await fetch(`${BASE_URL}/usuario/id/${documento.creador}`)
+        const creador = await respuestaCreador.json()
 
         // Mostrar datos del documento
-        if (nombreDocumento) nombreDocumento.textContent = documento.nombreDoc;
-        if (carreraDoc) carreraDoc.textContent = documento.carreraDoc;
-        if (tipoDoc) tipoDoc.textContent = documento.tipoDoc;
-        if (nombreCreador) nombreCreador.textContent = creador.datos?.nombre || "Usuario";
-        if (descripcionDocumento) descripcionDocumento.textContent = documento.descripcion;
+        if (nombreDocumento) nombreDocumento.textContent = documento.nombreDoc
+        if (carreraDoc) carreraDoc.textContent = documento.carreraDoc
+        if (tipoDoc) tipoDoc.textContent = documento.tipoDoc
+        if (nombreCreador) nombreCreador.textContent = creador.datos?.nombre || "Usuario"
+        if (descripcionDocumento) descripcionDocumento.textContent = documento.descripcion
 
     } catch (error) {
-        console.error("Error al cargar documento:", error);
-        alert("Error al cargar el documento");
-        window.location.href = "inicio.html";
+        console.error("Error al cargar documento:", error)
+        alert("Error al cargar el documento")
+        window.location.href = "inicio.html"
     }
 }
 
-// Función para descargar documento
 function descargarDocumento() {
-    const docId = localStorage.getItem("documentoSeleccionado");
+    const docId = localStorage.getItem("documentoSeleccionado")
     
     if (!docId) {
-        alert("No se seleccionó ningún documento");
-        return;
+        alert("No se seleccionó ningún documento")
+        return
     }
-
-    // Abrir el PDF en una nueva pestaña
-    window.open(`${BASE_URL}/biblioteca/descargar/${docId}`, '_blank');
+    window.open(`${BASE_URL}/biblioteca/descargar/${docId}`, '_blank')
 }
 
-// Función para ir a crear nota
 function irANota() {
     window.location.href = "nota.html";
 }
 
 // Ejecutar si estamos en doc.html
-const checkDocPage = document.querySelector("#nombreDocumento");
+const checkDocPage = document.querySelector("#nombreDocumento")
 if (checkDocPage) {
-    const btnDescargarDoc = document.querySelector("#descargarDoc");
-    const btnAgregarNota = document.querySelector("#agregarNota");
+    const btnDescargarDoc = document.querySelector("#descargarDoc")
+    const btnAgregarNota = document.querySelector("#agregarNota")
     
     cargarDocumento();
     
     if (btnDescargarDoc) {
-        btnDescargarDoc.addEventListener("click", descargarDocumento);
+        btnDescargarDoc.addEventListener("click", descargarDocumento)
     }
     
     if (btnAgregarNota) {
-        btnAgregarNota.addEventListener("click", irANota);
+        btnAgregarNota.addEventListener("click", irANota)
     }
 }
 

@@ -1,4 +1,7 @@
+//elementos de de perfil-usuario.html
 const divDocsUsuario = document.querySelector("#documentosUsuario")
+
+//elementos de editar-usuario.html
 const editarNombre = document.querySelector("#editarNombre")
 const editarCarrera = document.querySelector("#editarCarrera")
 const editarPass = document.querySelector("#editarPass")
@@ -32,38 +35,29 @@ const arrayCarreras = [
     "Licenciatura en Biotecnología"
 ];
 
-let avatarSeleccionado = null;
-
-// VALIDACIÓN DEL USUARIO
-let usuarioActual = null;
+let avatarSeleccionado
+let usuarioActual 
 
 try {
-    const usuarioGuardado = localStorage.getItem("usuarioLogueado");
+    const usuarioGuardado = localStorage.getItem("usuarioLogueado")
     
     if (!usuarioGuardado) {
-        console.log("No hay usuario en localStorage");
-        window.location.href = "login.html";
+        console.log("No hay usuario en localStorage")
+        window.location.href = "login.html"
     } else {
-        usuarioActual = JSON.parse(usuarioGuardado);
-        console.log("Usuario logueado:", usuarioActual);
-        
-        // Verificar que tenga la estructura correcta
-        if (!usuarioActual.correo || !usuarioActual.datos) {
-            console.error("Estructura de usuario inválida");
-            localStorage.removeItem("usuarioLogueado");
-            window.location.href = "login.html";
-        }
+        usuarioActual = JSON.parse(usuarioGuardado) //vuelve a convertir el string en un json
+        console.log("Usuario logueado:", usuarioActual)
     }
 } catch (error) {
-    console.error("Error al parsear usuario:", error);
-    localStorage.removeItem("usuarioLogueado");
-    window.location.href = "login.html";
+    console.error("Error al parsear usuario:", error)
+    localStorage.removeItem("usuarioLogueado")
+    window.location.href = "login.html"
 }
 
 // CERRAR SESIÓN
 function cerrarSesion() {
     if (confirm("¿Estás seguro de que quieres cerrar sesión?")) {
-        localStorage.removeItem("usuarioLogueado");
+        localStorage.removeItem("usuarioLogueado"); //borra el usuario logueado del localStorage
         window.location.href = "login.html";
     }
 }
@@ -85,23 +79,12 @@ function mostrarInfoPerfil() {
 }
 
 async function obtenerDocumentosUsuario() {
-    if (!usuarioActual || !usuarioActual._id) {
-        console.error("No hay ID de usuario");
-        return;
-    }
-
     try {
         const respuesta = await fetch(`${BASE_URL}/biblioteca/creador/${usuarioActual._id}`)
-        
-        if (!respuesta.ok) {
-            console.log("Error en la respuesta:", respuesta.status)
-            return
-        }
-
         const data = await respuesta.json()
         console.log("Documentos del usuario:", data)
 
-        mostrarDocumentosUsuario(data.DocsCreador || [])
+        mostrarDocumentosUsuario(data.DocsCreador)
     } catch (error) {
         console.log("No se pudo obtener los documentos:", error)
     }
@@ -111,7 +94,6 @@ function mostrarDocumentosUsuario(arrayDocs) {
     const contenedor = divDocsUsuario || divDeleteDocs;
     
     if (!contenedor) return;
-
     contenedor.innerHTML = ""
 
     if (arrayDocs.length === 0) {
@@ -125,7 +107,9 @@ function mostrarDocumentosUsuario(arrayDocs) {
             : documento.descripcion
 
         const botonEliminar = divDeleteDocs ? 
-            `<button class="btnEliminarDoc" onclick="eliminarDocumento('${documento._id}')" title="Eliminar documento">🗑️</button>` : '';
+            `<div class="btnEliminarDoc" onclick="eliminarDocumento('${documento._id}')" title="Eliminar documento">
+                <img src= img/trash.svg>
+                </div>` : '';
 
         contenedor.innerHTML += `
             <article>
@@ -140,7 +124,8 @@ function mostrarDocumentosUsuario(arrayDocs) {
 }
 
 async function eliminarDocumento(idDocumento) {
-    if (!confirm("¿Estás seguro de que quieres eliminar este documento?")) return;
+    if (!confirm("¿Estás seguro de que quieres eliminar este documento?")) 
+        return
 
     try {
         const respuesta = await fetch(`${BASE_URL}/biblioteca/eliminar/${idDocumento}`, {
@@ -162,49 +147,50 @@ async function eliminarDocumento(idDocumento) {
 window.eliminarDocumento = eliminarDocumento;
 
 function cargarAvatares() {
-    if (!contenedorAvatares) return;
+    if (!contenedorAvatares) 
+        return
 
-    contenedorAvatares.innerHTML = "";
+    contenedorAvatares.innerHTML = ""
 
     avatares.forEach(url => {
-        const img = document.createElement("img");
+        const img = document.createElement("img")
         img.src = url;
         img.classList.add("avatarIcon");
 
         if (usuarioActual.datos.perfil === url) {
             img.classList.add("selected");
-            avatarSeleccionado = url;
+            avatarSeleccionado = url
         }
 
         img.addEventListener("click", () => {
-            avatarSeleccionado = url;
+            avatarSeleccionado = url
 
             document.querySelectorAll(".avatarIcon").forEach(a => 
                 a.classList.remove("selected")
             );
 
-            img.classList.add("selected");
+            img.classList.add("selected")
         });
 
-        contenedorAvatares.appendChild(img);
+        contenedorAvatares.appendChild(img)
     });
 }
 
 function cargarCarreras() {
-    if (!editarCarrera) return;
+    if (!editarCarrera) return
 
-    editarCarrera.innerHTML = '<option value="" disabled>Carrera que estudias</option>';
+    editarCarrera.innerHTML = '<option value="" disabled>Carrera que estudias</option>'
 
     arrayCarreras.forEach(carrera => {
-        const option = document.createElement("option");
-        option.value = carrera;
-        option.textContent = carrera;
-        editarCarrera.appendChild(option);
+        const option = document.createElement("option")
+        option.value = carrera
+        option.textContent = carrera
+        editarCarrera.appendChild(option)
     });
 }
 
 function cargarDatosEdicion() {
-    cargarCarreras();
+    cargarCarreras()
 
     if (editarNombre) editarNombre.value = usuarioActual.datos.nombre
     if (editarCarrera) editarCarrera.value = usuarioActual.datos.carrera
@@ -258,7 +244,7 @@ async function guardarCambios() {
     }
 }
 
-// Ejecutar según la página
+// ejecutar según la página
 if (divDocsUsuario) {
     mostrarInfoPerfil()
     obtenerDocumentosUsuario()
