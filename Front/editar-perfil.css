@@ -31,8 +31,6 @@ header nav a:hover::after {
     padding-bottom: 4rem; 
 }
 
-
-
 #divEditarUsuario {
     display: flex;
     justify-content: center;
@@ -48,6 +46,7 @@ header nav a:hover::after {
     margin: 2rem auto;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
     justify-items: center;
 }
 
@@ -82,7 +81,15 @@ header nav a:hover::after {
     width: 70%;
 }
 
+.guardardiv{
+    margin-top: 4rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 #btnEditarPerfil {   
+    width: 40%;
     font-weight: 500;   
     font-family: inherit;                
     color: var(--color-fondo-claro);
@@ -100,12 +107,102 @@ header nav a:hover::after {
     background-color: var(--color-acento); 
 }
 
-
 h2{
     font-weight: 500;
 }
 
+#DeleteDocsUsuario{
+    display: grid;
+    gap: 1.5rem;           
+    grid-template-columns: repeat(2, 1fr); 
+    margin-top: 2rem;
+}
+
+#DeleteDocsUsuario article{
+    border: 2px solid var(--color-primario);   
+    border-radius: 18px;
+    padding: 1.6rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    transition: 0.25s ease;
+}
+
+#DeleteDocsUsuario article:hover {
+    border-color: var(--color-acento);
+    cursor: pointer;
+}
+
+/* Título */
+#DeleteDocsUsuario article h3 {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #072A5A;
+    margin: 0;
+}
+
+/* Descripción */
+#DeleteDocsUsuario article p {
+    font-size: var(--size-p);
+    color: var(--color-primario);
+    margin: 0;
+}
+
+#DeleteDocsUsuario article p:nth-of-type(2) {
+    color: rgb(105, 105, 105);
+}
+
+/* Badge de carrera */
+#DeleteDocsUsuario article h5 {
+    display: inline-block;
+    font-size: 0.9rem;
+    padding: 0.3rem 0.9rem;
+    border-radius: 20px;
+    font-weight: 500;
+    width: fit-content;
+}
+
+#DeleteDocsUsuario article h5:first-of-type{
+    color: var(--color-primario);
+    border: 2px solid var(--color-naranja);
+}
+
+.cajita{
+    display: flex;
+    justify-content: end;
+}
+
+.btnEliminarDoc{
+    font-weight: 500;   
+    font-family: inherit;                
+    color: var(--color-fondo-claro);
+    background-color: var(--color-primario);
+    padding: 0.5rem 1.2rem;       
+    border-radius: 15px;            
+    font-size: var(--size-p);      
+    text-decoration: none;        
+    transition: background-color 0.3s ease;
+    cursor: pointer;
+    border: 2px solid transparent;
+    background-color: rgb(231, 48, 48);                     
+}
+
+.btnEliminarDoc:hover{
+    border-color: rgb(231, 48, 48);    
+    background-color: var(--color-fondo-claro);
+}
+
 @media (max-width: 1024px) {
+
+    header {
+        padding: 1.5rem 2rem;
+    }
+
+    /* HEADER */
+    header nav {
+        display: none;
+    }
+
     .avatares {
         width: 100%;
         max-width: 300px;
@@ -119,9 +216,48 @@ h2{
     .inputsRegistro select {
         width: 100%;
     }
+    
+    #divEditarUsuario {
+        flex-direction: column; 
+        text-align: center;
+        align-items: center;
+    }
+
+    .guardardiv {
+        justify-content: center;
+    }
+
+    #DeleteDocsUsuario {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+    }
+
+    footer {
+        flex-direction: column;
+        text-align: center;
+        align-items: center;
+        gap: 2rem;
+    }
+
+    footer .logoFooter {
+        display: flex;
+        justify-content: center;
+    }
+
+    footer div {
+        text-align: center;
+    }
+
+    footer .iconos {
+        justify-content: center;
+    }
 }
 
 @media (max-width: 768px) {
+
+    h1, h2{
+        text-align: center;
+    }
     .avatares {
         max-width: 250px;
         gap: 1rem;
@@ -130,9 +266,22 @@ h2{
         width: 90px;
         height: 90px;
     }
+
     .inputsRegistro {
+        max-width: 300px;
+        gap: 0.6rem;
+    }
+
+    .inputsRegistro input,
+    .inputsRegistro select {
         width: 100%;
-        max-width: 350px;
-        gap: 0.7rem;
+    }
+
+    #DeleteDocsUsuario {
+        grid-template-columns: 1fr;
+    }
+
+    #btnEditarPerfil {
+        width: 60%;
     }
 }

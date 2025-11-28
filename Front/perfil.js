@@ -134,7 +134,9 @@ function mostrarDocumentosUsuario(arrayDocs) {
                 <h5>${documento.carreraDoc}</h5>
                 <h5>${documento.tipoDoc}</h5>
                 <p>${usuarioActual.datos.nombre}</p>
+                <div class="cajita">
                 ${botonEliminar}
+                </div>
             </article>`
     }
 }

@@ -114,7 +114,7 @@ h1{
 }
 
 #contenedorDocsBiblioteca article p:nth-of-type(2) {
-    color: var(--color-link);
+    color: rgb(105, 105, 105);
 }
 
 /* Badge de carrera */
@@ -172,3 +172,107 @@ h1{
     border: 2px solid #fff;
 }
 
+@media (max-width: 1024px) {
+
+    header {
+        padding: 1.5rem 2rem;
+    }
+
+    /* HEADER */
+    header nav {
+        display: none;
+    }
+
+    section {
+        padding: 0 1.5rem;
+    }
+
+    #uploadDoc {
+        padding: 0.6rem 1rem;
+        font-size: 0.95rem;
+    }
+
+    .camposBiblioteca {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    #inputSearch,
+    #carreraDoc {
+        width: 100%;
+    }
+
+    #contenedorDocsBiblioteca {
+        grid-template-columns: repeat(2, 1fr); /* dos columnas se mantienen */
+        gap: 1rem;
+    }
+
+    #addNota {
+        width: 100%;
+        text-align: center;
+    }
+
+    footer {
+        flex-direction: column;
+        text-align: center;
+        align-items: center;
+        gap: 2rem;
+    }
+
+    footer .logoFooter {
+        display: flex;
+        justify-content: center;
+    }
+
+    footer div {
+        text-align: center;
+    }
+
+    footer .iconos {
+        justify-content: center;
+    }
+}
+
+@media (max-width: 768px) {
+    section {
+        padding: 0 1rem;
+    }
+
+    h1 {
+        font-size: 1.8rem;
+        margin-top: 3rem;
+        text-align: center;
+    }
+
+    #uploadDoc {
+        width: 100%;
+        justify-content: center;
+        padding: 0.6rem 0;
+        font-size: 0.9rem;
+    }
+
+    .camposBiblioteca {
+        flex-direction: column;
+        gap: 0.8rem;
+    }
+
+    #inputSearch,
+    #carreraDoc {
+        width: 100%;
+    }
+
+    #contenedorDocsBiblioteca {
+        grid-template-columns: 1fr; 
+        gap: 1rem;
+    }
+
+    #contenedorDocsBiblioteca article {
+        padding: 1rem;
+    }
+
+    #addNota {
+        width: 100%;
+        font-size: 0.9rem;
+        padding: 0.5rem 0;
+    }
+}
