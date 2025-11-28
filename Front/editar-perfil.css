@@ -1,3 +1,6 @@
+header{
+    padding: 1.5rem 3rem;
+}
 
 header nav a {
     position: relative;
@@ -79,8 +82,9 @@ header nav a:hover::after {
     width: 70%;
 }
 
-#btnEditarPerfil{   
-    font-weight: 500;                   
+#btnEditarPerfil {   
+    font-weight: 500;   
+    font-family: inherit;                
     color: var(--color-fondo-claro);
     background-color: var(--color-primario);
     padding: 0.5rem 1.2rem;       
@@ -88,11 +92,14 @@ header nav a:hover::after {
     font-size: var(--size-p);      
     text-decoration: none;        
     transition: background-color 0.3s ease;
+    border: none;
+    cursor: pointer;
 }
 
-#btnEditarPerfil a:hover {
+#btnEditarPerfil:hover {
     background-color: var(--color-acento); 
 }
+
 
 h2{
     font-weight: 500;

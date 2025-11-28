@@ -197,7 +197,6 @@ async function crearDocumento() {
 
 
 
-
 if(contenedorDocs || divDocsBiblioteca){ //si estoy en incio.html o biblioteca.html
     obtenerDocumentos()
 }
@@ -211,3 +210,4 @@ if(carreraSelect && buscadorDoc){ //para ver si estoy en biblioteca.html
 if(btnSubirDoc){ //para saber si estamos parados en nuevo-documento.html
     btnSubirDoc.addEventListener("click", crearDocumento)
 }
+

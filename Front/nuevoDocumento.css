@@ -1,4 +1,7 @@
 /*animacion a HEADER*/
+header{
+    padding: 1.5rem 3rem;
+}
 
 header nav a {
     position: relative;

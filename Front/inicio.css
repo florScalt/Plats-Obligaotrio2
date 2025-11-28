@@ -1,8 +1,37 @@
 
-/*HEADER*/
+/* ------------------ HEADER ------------------- */
+header{
+    padding: 1.5rem 3rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+    font-size: 1.7rem;
+    text-decoration: none;
+    color: var(--color-primario);
+    font-weight: 800;
+}
+
+.logo img {
+    height: 30px;
+    width: auto;
+}
+
+header nav {
+    display: flex;
+    gap: 2.5rem;
+}
+
 header nav a {
     position: relative;
     text-decoration: none;
+    color: var(--color-primario);
+    font-weight: 600;
 }
 
 header nav a::after {
@@ -23,10 +52,29 @@ header nav a:hover::after {
 
 nav a.active {
     font-weight: 800;
-    color: var(--color-primario); /* opcional */
 }
 
-/*HERO SECTION*/
+.avatar-container img {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    object-fit: cover;
+    cursor: pointer;
+}
+
+/* Botón hamburguesa */
+.hamburguesa {
+    display: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.hamburguesa .material-symbols-outlined {
+    font-size: 2rem;
+    color: var(--color-primario);
+}
+
 #hero {
     width: 100%;
     max-width: 1200px;
@@ -41,10 +89,10 @@ nav a.active {
 
 .presentacion{
     width: 40%;
+}
 
-    p{
-        margin-top: 2rem;
-    }
+.presentacion p{
+    margin-top: 2rem;
 }
 
 .ilustracionHero{
@@ -61,22 +109,16 @@ nav a.active {
     object-fit: contain;
 }
 
-/*SELECCION SECTION*/
 #select-section{
     width: 100%;
     max-width: 1200px;
     display: flex;
-    flex-direction: row;
+    gap: 2rem;
     margin: 0 auto;
     justify-content: space-between;
     align-items: center;
     padding: 0 2rem; 
     min-height: 55vh;
-
-    a{
-        border: 1px solid var(--color-primario);
-        padding: 2rem;
-    }
 }
 
 #select-section a {
@@ -96,32 +138,21 @@ nav a.active {
     transition: .3s ease;
 }
 
-#select-section a:nth-child(1) {
-    border-color: #FF6B38; 
-}
+#select-section a:nth-child(1) { border-color: #FF6B38; }
+#select-section a:nth-child(2) { border-color: #00C66C; }
+#select-section a:nth-child(3) { border-color: #FFC52A; }
 
-#select-section a:nth-child(2) {
-    border-color: #00C66C; 
-}
-
-#select-section a:nth-child(3) {
-    border-color: #FFC52A; 
-}
-
-/* IMÁGENES GRANDES */
 #select-section a img {
-    height: 200px;                
+    height: 200px;
     width: auto;
-    object-fit: contain;          
+    object-fit: contain;
 }
 
-/* TÍTULOS */
 #select-section a h3 {
     font-weight: 500;
     margin: 0;
 }
 
-/* HOVER */
 #select-section a:hover {
     transform: translateY(-6px);
     background-color: #fff;
@@ -136,55 +167,45 @@ nav a.active {
     top: 0.6rem;
     right: -2rem;
 
-    background: #FFC52A;
-    color: #000;
+    background: var(--color-amarillo);
+    color: var(--color-primario);
     padding: 0.5rem 0.7rem;
     border-radius: 10px;
     font-size: 0.8rem;
     font-weight: 500;
 
-    display: inline-block;
-    text-decoration: none;
-    cursor: pointer;
-
     border: 2px solid #fff;
 }
-
-/*SECTION ULTIMOS DOCUMENTOS*/
 
 #ultimosDocs{
     width: 100%;
     max-width: 1200px;
     margin: 0 auto;
-    justify-content: space-between;
-    align-items: center;
     padding: 0 2rem;
     min-height: 55vh;
 }
 
-h2 {
-    font-weight: 600;
-}
+h2 { font-weight: 600; }
 
 .subtitulo{
     display: flex;
     justify-content: space-between;
     align-items: center;
+}
 
-    a{
-        color: var(--color-link);
-        text-decoration: underline;
-    }
+.subtitulo a{
+    color: var(--color-link);
+    text-decoration: underline;
+}
 
-    a:hover{
-        text-decoration: none;
-    }
+.subtitulo a:hover{
+    text-decoration: none;
 }
 
 #contenedorArticulos {
     display: grid;
     gap: 1.5rem;           
-    grid-template-columns: repeat(2, 1fr); 
+    grid-template-columns: repeat(2, 1fr);
     margin-top: 2rem;
 }
 
@@ -198,36 +219,147 @@ h2 {
     transition: 0.25s ease;
 }
 
-/* Hover suave como en la captura */
 #contenedorArticulos article:hover {
     border-color: var(--color-acento);
     cursor: pointer;
 }
 
-/* Título */
 #contenedorArticulos article h3 {
     font-size: 1.2rem;
     font-weight: 700;
-    color: #072A5A; /* azul oscuro como tu estilo */
+    color: #072A5A;
     margin: 0;
 }
 
-/* Descripción */
 #contenedorArticulos article p {
     font-size: 0.95rem;
-    color: var(--color-primario);
     margin: 0;
 }
 
-/* Badge de carrera */
 #contenedorArticulos article h5 {
     display: inline-block;
     font-size: 0.9rem;
     padding: 0.3rem 0.9rem;
-    border: 2px solid #FF6B38; /* azul Google style */
+    border: 2px solid #FF6B38;
     border-radius: 20px;
     font-weight: 500;
-    color: var(--color-primario);
     margin: 0.4rem 0;
     width: fit-content;
+}
+
+/* ==================== TABLET 1024px ================== */
+
+@media (max-width: 1024px) {
+
+    header {
+        padding: 1.5rem 2rem;
+    }
+
+    /* HEADER */
+    header nav {
+        display: none;
+    }
+
+    .hamburguesa {
+        display: block;
+    }
+
+    /* HERO */
+    #hero {
+        gap: 2rem;
+    }
+
+    .presentacion {
+        width: 30%;
+    }
+
+    .ilustracionHero {
+        width: 50%;
+        margin-bottom: 5rem;
+    }
+
+    /* SELECT SECTION */
+    #select-section {
+        gap: 1.5rem;
+        margin-bottom: 5rem;
+    }
+
+    #select-section a {
+        width: 300px;
+        height: 260px;
+    }
+
+    footer {
+        flex-direction: column;
+        text-align: center;
+        align-items: center;
+        gap: 2rem;
+    }
+
+    footer .logoFooter {
+        display: flex;
+        justify-content: center;
+    }
+
+    footer div {
+        text-align: center;
+    }
+
+    footer .iconos {
+        justify-content: center;
+    }
+}
+
+/* ==================== MOBILE 768px ==================== */
+
+@media (max-width: 768px) {
+
+    /* HEADER */
+    header nav {
+        display: none;
+    }
+
+    .hamburguesa {
+        display: block;
+    }
+
+    h1{
+        font-size: 2.5rem;
+        margin-top: 4rem;
+    }
+  
+    #hero {
+        flex-direction: column;
+        text-align: center;
+        padding: 0 1.5rem;
+    }
+
+    .presentacion {
+        width: 100%;
+    }
+
+    .ilustracionHero {
+        width: 100%;
+    }
+
+    /* SELECT SECTION */
+    #select-section {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        min-height: auto;
+    }
+
+    #select-section a {
+        width: 100%;
+        max-width: 350px;
+        height: auto;
+        padding: 1.5rem;
+    }
+
+    /* ÚLTIMOS DOCUMENTOS */
+    #contenedorArticulos {
+        grid-template-columns: 1fr;
+    }
+
 }

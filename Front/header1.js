@@ -6,6 +6,9 @@ document.addEventListener("DOMContentLoaded", () => {
                 <img src="../img/logoPlats.svg" alt="PLATS logo">
                 PLATS
             </a>
+            <button id="btnMenu" class="hamburguesa">
+                <span class="material-symbols-outlined">menu</span>
+            </button>
             <nav>
                 <a href="">
                 <span class="material-symbols-outlined">headset_mic</span>Ayuda</a>

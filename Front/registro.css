@@ -1,4 +1,3 @@
-
 /*--------HEADER REGISTRO-LOGIN---------*/
 header {
     display: flex;
@@ -23,6 +22,7 @@ header {
     width: auto;
 }
 
+/* NAV DESKTOP */
 nav {
     display: flex;
     align-items: center;
@@ -32,16 +32,26 @@ nav {
 nav a {
     font-size: var(--size-button-link);
     font-weight: 600;
+    text-decoration: none;
+    color: var(--color-primario);
 }
 
-/*ayuda*/
+/* Botón hamburguesa escondido en PC */
+.hamburguesa {
+    display: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--color-primario);
+    font-size: 2rem;
+}
+
+/* Ayuda */
 nav a:first-child {
     display: flex;
     gap: 0.7rem;
     align-items: center;
     padding: 0.3rem 1.7rem;
-    text-decoration: none;
-    color: var(--color-primario);
     border-radius: 20px;
     border: 1px solid var(--color-primario);
     transition: 0.2s;
@@ -52,12 +62,7 @@ nav a:first-child:hover {
     color: #fff;
 }
 
-/* icono */
-.material-symbols-outlined {
-    font-size: var(--size-button-link);
-}
-
-/*contactanos*/
+/* Contactanos */
 nav a:last-child:hover {
     color: var(--color-acento);
 }
@@ -203,6 +208,7 @@ section {
 
     h1 {
         font-size: 2rem;
+        margin-top: 4rem;
     }
 
     h2 {
@@ -245,18 +251,25 @@ section {
 /*        MOBILE           */
 @media (max-width: 768px) {
 
+    h1{
+        font-size: 1.6rem;
+    }
+    
     header {
-        flex-direction: column;
-        padding: 1rem;
-        gap: 0.8rem;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem 1.3rem;
     }
 
+    /* Oculto nav en mobile */
     nav {
-        gap: 1rem;
+        display: none !important;
     }
 
-    nav a:first-child {
-        padding: 0.3rem 1.2rem;
+    /* Mostrar hamburguesa */
+    .hamburguesa {
+        display: block;
     }
 
     section {

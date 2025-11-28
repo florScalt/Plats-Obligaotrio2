@@ -54,7 +54,6 @@ p{
 /*Header*/
 header {
     display: flex;
-    padding: 1.5rem 3rem;
     justify-content: space-between;
     align-items: center;
     background-color: transparent;
