@@ -1,0 +1,131 @@
+
+header nav a {
+    position: relative;
+    text-decoration: none;
+}
+
+header nav a::after {
+    content: "";
+    position: absolute;
+    bottom: -3px;
+    left: 50%;
+    width: 0;
+    height: 2px;
+    background-color: var(--color-acento);
+    transition: all 0.3s ease;
+    transform: translateX(-50%);
+}
+
+header nav a:hover::after {
+    width: 100%;
+}
+
+/*section 1*/
+.infoPerfil, .misDocus{
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    padding-bottom: 4rem; 
+}
+
+
+
+#divEditarUsuario {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+    margin-top: 2rem;
+    text-align: center; /* igual que en registro */
+}
+
+.avatares {
+    width: 50%;
+    max-width: 350px;
+    margin: 2rem auto;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    justify-items: center;
+}
+
+.avatarIcon {
+    width: 120px;
+    height: 120px;
+    cursor: pointer;
+    border-radius: 100px;
+    transition: transform 0.2s, border 0.2s, background 0.2s;
+    border: 2px solid transparent;
+}
+
+.avatarIcon:hover {
+    transform: scale(1.05);
+}
+
+.avatarIcon.selected {
+    border: 3px solid var(--color-acento);
+    transform: scale(1.1);
+}
+
+.inputsRegistro {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    margin-top: 2rem;
+}
+
+.inputsRegistro input,
+.inputsRegistro select {
+    width: 70%;
+}
+
+#btnEditarPerfil{   
+    font-weight: 500;                   
+    color: var(--color-fondo-claro);
+    background-color: var(--color-primario);
+    padding: 0.5rem 1.2rem;       
+    border-radius: 15px;            
+    font-size: var(--size-p);      
+    text-decoration: none;        
+    transition: background-color 0.3s ease;
+}
+
+#btnEditarPerfil a:hover {
+    background-color: var(--color-acento); 
+}
+
+h2{
+    font-weight: 500;
+}
+
+@media (max-width: 1024px) {
+    .avatares {
+        width: 100%;
+        max-width: 300px;
+    }
+    .inputsRegistro {
+        width: 100%;
+        max-width: 450px;
+        align-items: center;
+    }
+    .inputsRegistro input,
+    .inputsRegistro select {
+        width: 100%;
+    }
+}
+
+@media (max-width: 768px) {
+    .avatares {
+        max-width: 250px;
+        gap: 1rem;
+    }
+    .avatarIcon {
+        width: 90px;
+        height: 90px;
+    }
+    .inputsRegistro {
+        width: 100%;
+        max-width: 350px;
+        gap: 0.7rem;
+    }
+}
