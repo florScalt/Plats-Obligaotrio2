@@ -61,7 +61,7 @@ btn.addEventListener("click", async () => {
     const carrera = document.querySelector("#selectCarrera").value;
     const password = document.querySelector("#passwordField").value;
 
-    if (!nombre || !email || !password) {
+    if (!nombre || !email || !carrera || !password) {
         alert("Completa todos los campos");
         return;
     }
@@ -72,12 +72,12 @@ btn.addEventListener("click", async () => {
     }
 
     const nuevoUsuario = {
-    correo: email,
-    pass: password,
-    datos:{
-        nombre: nombre,
-        carrera: carrera,
-        perfil: avatarSeleccionado
+        correo: email,
+        pass: password,
+        datos: {
+            nombre: nombre,
+            carrera: carrera,
+            perfil: avatarSeleccionado
         }
     };
 
@@ -92,7 +92,21 @@ btn.addEventListener("click", async () => {
         alert(data);
 
         if (data.includes("éxito")) {
-            window.location.href = "login.html";
+            // Después de registrarse exitosamente, hacer login automático
+            try {
+                const loginRes = await fetch(`http://localhost:3000/usuario/${email}`);
+                const usuarioCompleto = await loginRes.json();
+                
+                // Guardar en localStorage
+                localStorage.setItem("usuarioLogueado", JSON.stringify(usuarioCompleto));
+                
+                // Redirigir a inicio
+                window.location.href = "inicio.html";
+            } catch (loginError) {
+                console.error("Error al hacer login automático:", loginError);
+                // Si falla el login automático, enviamos al usuario a login.html
+                window.location.href = "login.html";
+            }
         }
 
     } catch (error) {
@@ -100,5 +114,3 @@ btn.addEventListener("click", async () => {
         alert("Hubo un error al registrarse");
     }    
 });
-
-

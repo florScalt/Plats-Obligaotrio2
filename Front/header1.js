@@ -19,20 +19,3 @@ document.addEventListener("DOMContentLoaded", () => {
     
     document.body.insertAdjacentHTML("afterbegin", header);
 });
-
-//mostrar foto de perfil del usuario logueado
-const FtPerfil = document.querySelector("#FtAvatarUsuario")
-
-const usuarioActual = JSON.parse(localStorage.getItem("usuarioLogueado"))
-    if (!usuarioActual) {
-        window.location.href = "login.html" 
-    }
-    console.log("Usuario logueado:", usuarioActual)
-
-function mostrarFtPerfil () {
-    FtPerfil.innerHTML = usuarioActual.datos.perfil
-}
-
-FtPerfil.addEventListener("click", () => {
-    window.location.href = "perfil-usuario.html"
-})

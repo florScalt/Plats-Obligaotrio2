@@ -1,6 +1,3 @@
-const nombre = document.querySelector("#nombre-perfil")
-const correo = document.querySelector("#correo-perfil")
-const carrera = document.querySelector("#carrera-perfil")
 const divDocsUsuario = document.querySelector("#documentosUsuario")
 const editarNombre = document.querySelector("#editarNombre")
 const editarCarrera = document.querySelector("#editarCarrera")
@@ -8,94 +5,274 @@ const editarPass = document.querySelector("#editarPass")
 const btnEditarPerfil = document.querySelector("#btnEditarPerfil")
 const divEditarUsuario = document.querySelector("#divEditarUsuario")
 const divDeleteDocs = document.querySelector("#DeleteDocsUsuario")
+const contenedorAvatares = document.querySelector(".avatares")
+
+const nombrePerfil = document.querySelector("#nombre-perfil")
+const correoPerfil = document.querySelector("#correo-perfil")
+const carreraPerfil = document.querySelector("#carrera-perfil")
+const ftPerfil = document.querySelector("#ftPerfil")
+const btnCerrarSesion = document.querySelector("#btnCerrarSesion")
 
 const BASE_URL = "http://localhost:3000"
 
-const usuarioActual = JSON.parse(localStorage.getItem("usuarioLogueado")); //lo guardó el login
+const avatares = [
+    "../img/avatarH1.svg",
+    "../img/avatarH2.svg",
+    "../img/avatarM1.svg",
+    "../img/avatarM2.svg"
+];
 
-if (!usuarioActual) {
-    window.location.href = "login.html"; // si no está logueado lo manda a login.html
+const arrayCarreras = [
+    "Licenciatura en Comunicación",
+    "Licenciatura en Diseño Multimedia",
+    "Licenciatura en Ingeniería en Sistemas",
+    "Licenciatura en Gerencia y Administración",
+    "Licenciatura en Animación y Videojuegos",
+    "Licenciatura en Estudios Internacionales",
+    "Licenciatura en Biotecnología"
+];
+
+let avatarSeleccionado = null;
+
+// VALIDACIÓN DEL USUARIO
+let usuarioActual = null;
+
+try {
+    const usuarioGuardado = localStorage.getItem("usuarioLogueado");
+    
+    if (!usuarioGuardado) {
+        console.log("No hay usuario en localStorage");
+        window.location.href = "login.html";
+    } else {
+        usuarioActual = JSON.parse(usuarioGuardado);
+        console.log("Usuario logueado:", usuarioActual);
+        
+        // Verificar que tenga la estructura correcta
+        if (!usuarioActual.correo || !usuarioActual.datos) {
+            console.error("Estructura de usuario inválida");
+            localStorage.removeItem("usuarioLogueado");
+            window.location.href = "login.html";
+        }
+    }
+} catch (error) {
+    console.error("Error al parsear usuario:", error);
+    localStorage.removeItem("usuarioLogueado");
+    window.location.href = "login.html";
 }
-console.log("Usuario logueado:", usuarioActual);
 
-
-async function obtenerDatos() {
-    try {
-        const respuesta = await fetch(`${BASE_URL}/biblioteca/creador/${usuarioActual._id}`)
-        const data = await respuesta.json()
-        console.log("data:", data.DocsCreador)
-
-        mostrarDocumentosUsuario(data.DocsCreador)
-    } catch {
-        console.log("No se pudo obtener los documentos")
+// CERRAR SESIÓN
+function cerrarSesion() {
+    if (confirm("¿Estás seguro de que quieres cerrar sesión?")) {
+        localStorage.removeItem("usuarioLogueado");
+        window.location.href = "login.html";
     }
 }
 
-async function mostrarDocumentosUsuario(arrayDocs) {
-    nombre.innerHTML = usuarioActual.datos.nombre
-    correo.innerHTML = usuarioActual.correo
-    carrera.innerHTML = usuarioActual.datos.carrera
+function mostrarInfoPerfil() {
+    if (nombrePerfil && usuarioActual.datos.nombre) {
+        nombrePerfil.innerHTML = usuarioActual.datos.nombre
+    }
+    if (correoPerfil && usuarioActual.correo) {
+        correoPerfil.innerHTML = usuarioActual.correo
+    }
+    if (carreraPerfil && usuarioActual.datos.carrera) {
+        carreraPerfil.innerHTML = usuarioActual.datos.carrera
+    }
+    
+    if (ftPerfil && usuarioActual.datos.perfil) {
+        ftPerfil.innerHTML = `<img src="${usuarioActual.datos.perfil}" alt="Avatar" class="avatarPerfil">`
+    }
+}
 
+async function obtenerDocumentosUsuario() {
+    if (!usuarioActual || !usuarioActual._id) {
+        console.error("No hay ID de usuario");
+        return;
+    }
+
+    try {
+        const respuesta = await fetch(`${BASE_URL}/biblioteca/creador/${usuarioActual._id}`)
+        
+        if (!respuesta.ok) {
+            console.log("Error en la respuesta:", respuesta.status)
+            return
+        }
+
+        const data = await respuesta.json()
+        console.log("Documentos del usuario:", data)
+
+        mostrarDocumentosUsuario(data.DocsCreador || [])
+    } catch (error) {
+        console.log("No se pudo obtener los documentos:", error)
+    }
+}
+
+function mostrarDocumentosUsuario(arrayDocs) {
+    const contenedor = divDocsUsuario || divDeleteDocs;
+    
+    if (!contenedor) return;
+
+    contenedor.innerHTML = ""
+
+    if (arrayDocs.length === 0) {
+        contenedor.innerHTML = "<p>No has subido documentos todavía</p>"
+        return
+    }
+    
     for (const documento of arrayDocs) {
-
         const descripcion = documento.descripcion.length > 80
             ? documento.descripcion.substring(0, 80) + "..."
             : documento.descripcion
 
-        divDocsUsuario.innerHTML += `
+        const botonEliminar = divDeleteDocs ? 
+            `<button class="btnEliminarDoc" onclick="eliminarDocumento('${documento._id}')" title="Eliminar documento">🗑️</button>` : '';
+
+        contenedor.innerHTML += `
             <article>
                 <h3>${documento.nombreDoc}</h3>
                 <p>${descripcion}</p>
                 <h5>${documento.carreraDoc}</h5>
                 <h5>${documento.tipoDoc}</h5>
                 <p>${usuarioActual.datos.nombre}</p>
+                ${botonEliminar}
             </article>`
     }
 }
 
-async function obtenerDatosUsuario() {
-    try {
-        const respuesta = await fetch(`${BASE_URL}/usuario/id/${usuarioActual._id}`)
-        const data = await respuesta.json()
-        console.log("data:", data)
+async function eliminarDocumento(idDocumento) {
+    if (!confirm("¿Estás seguro de que quieres eliminar este documento?")) return;
 
-        mostrarDocumentosUsuario(data.DocsCreador)
-    } catch {
-        console.log("No se pudo obtener los documentos")
+    try {
+        const respuesta = await fetch(`${BASE_URL}/biblioteca/eliminar/${idDocumento}`, {
+            method: "DELETE"
+        })
+
+        if (respuesta.ok) {
+            alert("Documento eliminado correctamente")
+            obtenerDocumentosUsuario()
+        } else {
+            alert("Error al eliminar el documento")
+        }
+    } catch (error) {
+        console.log("Error al eliminar documento:", error)
+        alert("Error en la conexión con el servidor")
     }
 }
 
+window.eliminarDocumento = eliminarDocumento;
 
-async function editarUsuario() {
-    const data = {
-        nombre: editarNombre.value,
-        carrera: editarCarrera.value,
-        pass: editarPass.value
-    };
+function cargarAvatares() {
+    if (!contenedorAvatares) return;
 
-    try {
-        const respuesta = await fetch(`${BASE_URL}/usuario/editar/${usuarioActual.correo}`, {
-            method: "PUT",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(data)
+    contenedorAvatares.innerHTML = "";
+
+    avatares.forEach(url => {
+        const img = document.createElement("img");
+        img.src = url;
+        img.classList.add("avatarIcon");
+
+        if (usuarioActual.datos.perfil === url) {
+            img.classList.add("selected");
+            avatarSeleccionado = url;
+        }
+
+        img.addEventListener("click", () => {
+            avatarSeleccionado = url;
+
+            document.querySelectorAll(".avatarIcon").forEach(a => 
+                a.classList.remove("selected")
+            );
+
+            img.classList.add("selected");
         });
 
-        const resultado = await respuesta.json();
-        console.log("Usuario editado:", resultado);
+        contenedorAvatares.appendChild(img);
+    });
+}
+
+function cargarCarreras() {
+    if (!editarCarrera) return;
+
+    editarCarrera.innerHTML = '<option value="" disabled>Carrera que estudias</option>';
+
+    arrayCarreras.forEach(carrera => {
+        const option = document.createElement("option");
+        option.value = carrera;
+        option.textContent = carrera;
+        editarCarrera.appendChild(option);
+    });
+}
+
+function cargarDatosEdicion() {
+    cargarCarreras();
+
+    if (editarNombre) editarNombre.value = usuarioActual.datos.nombre
+    if (editarCarrera) editarCarrera.value = usuarioActual.datos.carrera
+    if (editarPass) editarPass.value = ""
+
+    cargarAvatares()
+}
+
+async function guardarCambios() {
+    try {
+        const body = {
+            datos: {
+                nombre: editarNombre.value,
+                carrera: editarCarrera.value,
+                perfil: avatarSeleccionado || usuarioActual.datos.perfil
+            }
+        }
+
+        if (editarPass.value.trim() !== "") {
+            body.pass = editarPass.value
+        }
+
+        const respuesta = await fetch(`${BASE_URL}/usuario/editar/${usuarioActual.correo}`, {
+            method: "PUT",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify(body)
+        })
+
+        if (respuesta.ok) {
+            const data = await respuesta.json()
+            console.log("Cambios guardados:", data)
+
+            usuarioActual.datos.nombre = editarNombre.value
+            usuarioActual.datos.carrera = editarCarrera.value
+            usuarioActual.datos.perfil = avatarSeleccionado || usuarioActual.datos.perfil
+            if (editarPass.value.trim() !== "") {
+                usuarioActual.pass = editarPass.value
+            }
+            localStorage.setItem("usuarioLogueado", JSON.stringify(usuarioActual))
+
+            alert("Perfil actualizado correctamente")
+            window.location.href = "perfil-usuario.html"
+        } else {
+            const errorText = await respuesta.text()
+            alert("Error al guardar cambios: " + errorText)
+        }
 
     } catch (error) {
-        console.log("Error al editar:", error);
+        console.log("Error al guardar cambios:", error)
+        alert("Hubo un error al guardar los cambios")
     }
 }
 
+// Ejecutar según la página
+if (divDocsUsuario) {
+    mostrarInfoPerfil()
+    obtenerDocumentosUsuario()
+    
+    if (btnCerrarSesion) {
+        btnCerrarSesion.addEventListener("click", cerrarSesion)
+    }
+}
 
-
-
-
-obtenerDatos()
-
-if (divEditarUsuario && divDeleteDocs) {
-    btnEditarPerfil.addEventListener("click", editarUsuario)
+if (divEditarUsuario || divDeleteDocs) {
+    cargarDatosEdicion()
+    obtenerDocumentosUsuario()
+    
+    if (btnEditarPerfil) {
+        btnEditarPerfil.addEventListener("click", guardarCambios)
+    }
 }

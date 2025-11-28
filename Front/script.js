@@ -1,34 +1,21 @@
 //IMPORTAR JS DEL HEADER Y FOOTER
 
 //ELEMENTOS DEL HTML
+const nombreNuevoDoc = document.querySelector("#nombreDoc");
+const carreraNuevoDoc = document.querySelector("#carreraDoc");
+const tipoResumen = document.querySelector("#opcionResumen");
+const tipoDocumento = document.querySelector("#opcionDocumento");
+const descNuevoDoc = document.querySelector("#descripcionDoc");
+const btnSubirDoc = document.querySelector("#subirDocBtn");
+const inputArchivo = document.querySelector("#archivoDoc");
+const dropZone = document.querySelector(".drop-zone");
+const divAgregarDoc = document.querySelector("#agregarDoc");
 const contenedorDocs = document.querySelector("#contenedorArticulos");
 const divDocsBiblioteca = document.querySelector("#contenedorDocsBiblioteca")
 const carreraSelect = document.querySelector("#carreraSelect")
 const buscadorDoc = document.querySelector("#inputSearch")
-const divAgregarDoc = document.querySelector("#agregarDoc")
-const nombreNuevoDoc = document.querySelector("#nombreDoc")
-const carreraNuevoDoc = document.querySelector("#carreraDoc")
-const tipoResumen = document.querySelector("#opcionResumen")
-const tipoDocumento = document.querySelector("#opcionDocumento")
-const descNuevoDoc = document.querySelector("#descripcionDoc")
-const archivoNuevoDoc = document.querySelector("#archivoDoc")
-//falta el drop del pdg
-const btnSubirDoc = document.querySelector("#subirDocBtn")
 
 
-//ARRAYS
-const arrayPerfiles = ["naranja", "verde", "amarillo", "azul"]
-
-const arrayCarreras = [
-    "Licenciatura en Comunicación",
-    "Licenciatura en Diseño Multimedia",
-    "Licenciatura en Ingeniería en Sistemas",
-    "Licenciatura en Gerencia y Administración",
-    "Licenciatura en Animación y Videojuegos",
-    "Licenciatura en Estudios Internacionales",
-    "Licenciatura en Biotecnología"
-]
-const arrayTipoDoc = ["Resumen", "Documento"]
 
 //USUARIO ACTUAL
 const usuarioActual = JSON.parse(localStorage.getItem("usuarioLogueado")); //lo guardó el login
@@ -104,23 +91,42 @@ async function mostrarDocumentos(arrayDocumentos) {
 }
 
 //FILTRAR DOCS POR CARRERA
-async function filtarPorCarrera () {
-    const carrera = carreraSelect.value
+//FILTRAR DOCS POR CARRERA
+async function filtarPorCarrera() {
+    const carrera = carreraSelect.value;
 
-    try {
-        const respuesta = await fetch(`${BASE_URL}/biblioteca/carrera/${encodeURIComponent(carrera)}`)//usa encodeURIComponent para que no haya espacios ni tildes en la URL
-        const data = await respuesta.json()
+    console.log("Carrera seleccionada:", carrera);
 
-        if(data.documentos.length>0){ //si el back devuelve algún json:
-            mostrarDocumentos(data.documentos)
-        }
-    } catch {
-        if (divDocsBiblioteca) {
-            divDocsBiblioteca.innerHTML = `<h3>Nos hay documentos relacionados a tu búsqueda</h3>`}
+    if (!carrera) {
+        obtenerDocumentos(); // Si no hay selección, mostrar todos
+        return;
     }
 
-}
+    try {
+        const carreraEncoded = encodeURIComponent(carrera);
+        const respuesta = await fetch(`${BASE_URL}/biblioteca/carrera/${carreraEncoded}`);
+        
+        if (!respuesta.ok) {
+            throw new Error("Error en la respuesta");
+        }
 
+        const data = await respuesta.json();
+        console.log("Datos recibidos:", data);
+
+        if (data.length > 0) {
+            mostrarDocumentos(data);
+        } else {
+            if (divDocsBiblioteca) {
+                divDocsBiblioteca.innerHTML = `<h3>No hay documentos relacionados a tu búsqueda</h3>`;
+            }
+        }
+    } catch (error) {
+        console.error("Error al filtrar por carrera:", error);
+        if (divDocsBiblioteca) {
+            divDocsBiblioteca.innerHTML = `<h3>No hay documentos relacionados a tu búsqueda</h3>`;
+        }
+    }
+}
 
 //FILTRAR POR NOMBRE DEL DOC
 async function filtrarPorNombre() {
@@ -141,6 +147,31 @@ async function filtrarPorNombre() {
     }
 }
 
+
+//DRAG AND DROP EN NUEVO-DOCUMENTO.HTML
+if (dropZone && inputArchivo) {
+    // Click en la zona para abrir selector
+    dropZone.addEventListener("click", () => {
+        inputArchivo.click();
+    });
+
+    // Prevenir comportamiento por defecto
+    ["dragenter", "dragover", "dragleave", "drop"].forEach(eventName => {
+        dropZone.addEventListener(eventName, (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+        });
+    });
+
+    // Manejar el drop
+    dropZone.addEventListener("drop", (e) => {
+        const files = e.dataTransfer.files;
+        if (files.length > 0) {
+            inputArchivo.files = files;
+        }
+    });
+}
+
 // AGREGAR DOCUMENTO EN NUEVO-DOCUMENTO.HTML
 async function crearDocumento() {
     const tipo =
@@ -148,25 +179,45 @@ async function crearDocumento() {
         tipoDocumento.checked ? "Documento" :
         "";
 
-    const archivo = document.querySelector("#archivoDoc").files[0];
+    const archivo = inputArchivo.files[0];
 
-    if (!archivo) {
-        alert("Debes seleccionar un archivo");
+    if (!nombreNuevoDoc.value.trim()) {
+        alert("Debes ingresar un nombre para el documento");
         return;
     }
 
-    const usuarioActual = JSON.parse(localStorage.getItem("usuarioLogueado"))
+    if (!carreraNuevoDoc.value) {
+        alert("Debes seleccionar una carrera");
+        return;
+    }
 
-    // Crear FormData en lugar de JSON
+    if (!descNuevoDoc.value.trim()) {
+        alert("Debes ingresar una descripción");
+        return;
+    }
+
+    if (!archivo) {
+        alert("Debes seleccionar un archivo PDF");
+        return;
+    }
+
+    const usuarioActual = JSON.parse(localStorage.getItem("usuarioLogueado"));
+
+    if (!usuarioActual) {
+        alert("No hay usuario logueado");
+        window.location.href = "login.html";
+        return;
+    }
+
     const formData = new FormData();
-    formData.append("archivo", archivo); // el nombre debe coincidir con el que Multer espera
-    formData.append("nombreDoc", nombreNuevoDoc.value);
+    formData.append("archivo", archivo);
+    formData.append("nombreDoc", nombreNuevoDoc.value.trim());
     formData.append("carreraDoc", carreraNuevoDoc.value);
     formData.append("tipoDoc", tipo);
-    formData.append("creador", usuarioActual._id); // linkear usuario real
-    formData.append("descripcion", descNuevoDoc.value);
+    formData.append("creador", usuarioActual._id);
+    formData.append("descripcion", descNuevoDoc.value.trim());
 
-    console.log("formData", formData)
+    btnSubirDoc.disabled = true;
 
     try {
         const response = await fetch(`${BASE_URL}/biblioteca/nuevo-documento`, {
@@ -174,22 +225,17 @@ async function crearDocumento() {
             body: formData
         });
 
-        const data = await response.text(); // ahora es un JSON con info del doc creado
-        console.log(data);
-
         if (response.ok) {
-            divAgregarDoc.innerHTML = `
-                <h2>Biblioteca compartida > Agregar documento</h2>
-                <h1>Agregar Documento</h1>
-                <h3 style="color: green;">Documento creado con éxito ✔</h3>
-                <a href="biblioteca.html">Volver a Biblioteca</a>
-            `;
+            alert("Documento subido con éxito");
+            window.location.href = "biblioteca.html";
         } else {
             alert("Error al subir el documento");
+            btnSubirDoc.disabled = false;
         }
     } catch (e) {
-        console.log(e);
+        console.error(e);
         alert("Error en la conexión con el servidor");
+        btnSubirDoc.disabled = false;
     }
 }
 

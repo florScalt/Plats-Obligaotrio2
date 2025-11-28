@@ -154,11 +154,10 @@ app.get("/biblioteca/carrera/:carreraDoc", async (req, res) => {
         const carreraBusqueda = req.params.carreraDoc
         const docBusqueda = await Documentos.find({ carreraDoc: carreraBusqueda })
         res.json(docBusqueda)
-        console.log("Se encontró los docuementos por carrera")
+        console.log("Se encontraron", docBusqueda.length, "documentos")
     } catch (e) {
         console.log(e)
         res.status(500).json({ message: e.message })
-        console.log("No se ha encontrado los documentos con la carrera seleccionada")
     }
 })
 
