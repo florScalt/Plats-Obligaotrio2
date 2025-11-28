@@ -1,8 +1,8 @@
-//SELECCION DE AVATARES
 const contenedorAvatares = document.querySelector(".avatares");
+const btn = document.querySelector("#btnRegistrarme");
+const selectCarrera = document.querySelector("#selectCarrera");
 
-//Variable global donde se guardará cuál avatar eligió el usuario
-let avatarSeleccionado = null;
+let avatarSeleccionado //acá se guarda que avatar selecciona el usuario
 
 const avatares = [
     "../img/avatarH1.svg",
@@ -11,16 +11,15 @@ const avatares = [
     "../img/avatarM2.svg"
 ];
 
-//Genero los avatares + evento click de selección
+//generar los avatares
 avatares.forEach(url => {
-    const img = document.createElement("img");
-    img.src = url;
-    img.classList.add("avatarIcon");
+    const img = document.createElement("img")
+    img.src = url
+    img.classList.add("avatarIcon")
 
     img.addEventListener("click", () => {
-        avatarSeleccionado = url;
+        avatarSeleccionado = url
 
-        // Quitar selección a todos
         document.querySelectorAll(".avatarIcon").forEach(a => 
             a.classList.remove("selected")
         );
@@ -43,7 +42,7 @@ const arrayCarreras = [
     "Licenciatura en Biotecnología"
 ];
 
-const selectCarrera = document.querySelector("#selectCarrera");
+
 
 arrayCarreras.forEach(carrera => {
     const option = document.createElement("option");
@@ -52,8 +51,6 @@ arrayCarreras.forEach(carrera => {
     selectCarrera.appendChild(option)
 });
 
-//los otros CAMPOS de registro
-const btn = document.querySelector("#btnRegistrarme");
 
 btn.addEventListener("click", async () => {
     const nombre = document.querySelector("#nameField").value;
@@ -92,7 +89,6 @@ btn.addEventListener("click", async () => {
         alert(data);
 
         if (data.includes("éxito")) {
-            // Después de registrarse exitosamente, hacer login automático
             try {
                 const loginRes = await fetch(`http://localhost:3000/usuario/${email}`);
                 const usuarioCompleto = await loginRes.json();
@@ -100,11 +96,9 @@ btn.addEventListener("click", async () => {
                 // Guardar en localStorage
                 localStorage.setItem("usuarioLogueado", JSON.stringify(usuarioCompleto));
                 
-                // Redirigir a inicio
                 window.location.href = "inicio.html";
             } catch (loginError) {
                 console.error("Error al hacer login automático:", loginError);
-                // Si falla el login automático, enviamos al usuario a login.html
                 window.location.href = "login.html";
             }
         }
