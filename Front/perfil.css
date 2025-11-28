@@ -1,0 +1,155 @@
+/*HEADER*/
+
+header nav a {
+    position: relative;
+    text-decoration: none;
+}
+
+header nav a::after {
+    content: "";
+    position: absolute;
+    bottom: -3px;
+    left: 50%;
+    width: 0;
+    height: 2px;
+    background-color: var(--color-acento);
+    transition: all 0.3s ease;
+    transform: translateX(-50%);
+}
+
+header nav a:hover::after {
+    width: 100%;
+}
+
+/*Margen sections*/
+.infoPerfil, .misDocs{
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 2rem;
+    height: 45vh;  
+}
+
+.infoPerfil{
+    display: flex;
+    flex-direction: row;
+    gap: 2rem;
+}
+
+.infoUsuario{
+    width: 70%;
+}
+
+.infoUsuario p:nth-of-type(2) {
+    margin-bottom: 2rem;
+}
+
+.infoUsuario a {
+    display: inline-flex;         
+    align-items: center;      
+    font-weight: 500;  
+    gap: 0.5rem;                  
+    color: var(--color-fondo-claro);
+    background-color: var(--color-primario);
+    padding: 0.5rem 1.2rem;       
+    border-radius: 15px;            
+    font-size: var(--size-p);      
+    text-decoration: none;        
+    transition: background-color 0.3s ease;
+}
+
+.infoUsuario a img {
+    width: 30px;   
+    height: 30px;
+}
+
+/* Hover opcional */
+.infoUsuario a:hover {
+    background-color: var(--color-acento); 
+}
+
+h2{
+    font-weight: 500;
+}
+
+#documentosUsuario{
+    display: grid;
+    gap: 1.5rem;           
+    grid-template-columns: repeat(2, 1fr); 
+    margin-top: 2rem;
+    border: 1px solid red;
+}
+
+#documentosUsuario article {
+    border: 2px solid var(--color-primario);   
+    border-radius: 18px;
+    padding: 1.6rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    transition: 0.25s ease;
+}
+
+#documentosUsuario article:hover {
+    border-color: var(--color-acento);
+    cursor: pointer;
+}
+
+/* Título */
+#documentosUsuario article h3 {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #072A5A;
+    margin: 0;
+}
+
+/* Descripción */
+#documentosUsuario article p {
+    font-size: var(--size-p);
+    color: var(--color-primario);
+    margin: 0;
+}
+
+#documentosUsuario article p:nth-of-type(2) {
+    color: var(--color-link);
+}
+
+/* Badge de carrera */
+#documentosUsuario article h5 {
+    display: inline-block;
+    font-size: 0.9rem;
+    padding: 0.3rem 0.9rem;
+    border-radius: 20px;
+    font-weight: 500;
+    margin: 0.4rem 0;
+    width: fit-content;
+}
+
+#documentosUsuario article h5:first-of-type{
+    color: var(--color-primario);
+    border: 2px solid var(--color-naranja);
+}
+
+.badge {
+    display: inline-block;
+    padding: 0.3rem 0.8rem;
+    border-radius: 50px;
+    font-size: var(--size-p);
+    font-weight: 600;
+    color: var(--color-fondo-claro);
+}
+
+/*Si es Resumen→ naranja */
+.badge.resumen {
+    background-color: var(--color-naranja);  
+}
+
+/*Si es Documento→ azul */
+.badge.documento {
+    background-color: var(--color-acento);
+}
+
+
+

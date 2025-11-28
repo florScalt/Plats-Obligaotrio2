@@ -2,7 +2,7 @@
 
 const header = `
     <header>
-        <a href="#" class="logo">
+        <a href="inicio.html" class="logo">
             <img src="../img/logoPlats.svg" alt="PLATS logo">
             PLATS
         </a>
